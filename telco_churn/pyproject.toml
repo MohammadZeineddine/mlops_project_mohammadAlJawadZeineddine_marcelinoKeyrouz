@@ -11,6 +11,8 @@ python = ">=3.10,<3.11"
 pandas = "^2.2.3"
 numpy = "^2.2.0"
 scikit-learn = "^1.6.0"
+omegaconf = "^2.3.0"
+loguru = "^0.7.3"
 
 
 [tool.poetry.group.dev.dependencies]
