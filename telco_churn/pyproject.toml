@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "telco-churn"
+version = "0.1.0"
+description = ""
+authors = ["MohammadZeineddine <99921709+MohammadZeineddine@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "telco_churn", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+pandas = "^2.2.3"
+numpy = "^2.2.0"
+scikit-learn = "^1.6.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+ruff = "^0.8.3"
+mypy = "^1.13.0"
+pdoc = "^15.0.1"
+invoke = "^2.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
