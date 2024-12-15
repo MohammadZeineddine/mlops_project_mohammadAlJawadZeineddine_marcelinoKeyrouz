@@ -1,5 +1,5 @@
-from .minmax_scaler_transfomer import MinMaxScalerTransformer
 from .base_transformer import DataTransformer
+from .minmax_scaler_transfomer import MinMaxScalerTransformer
 
 
 class TransformerFactory:
