@@ -5,6 +5,7 @@ from loguru import logger
 from telco_churn.data_transform import PreprocessingPipelineFactory
 from config import load_config  # Import the load_config function from config.py
 
+
 def entrypoint():
     """
     Entry point for the script, used when running with Poetry.
@@ -34,11 +35,15 @@ def main(config_env_or_path: str):
         # If it is a file path, load the file directly
         config_path = config_env_or_path
         logger.info(f"Loading configuration from {config_path}.")
-        data_loader, data_transform = load_config(config_path=config_path)  # Load config from file path
+        data_loader, data_transform = load_config(
+            config_path=config_path
+        )  # Load config from file path
     else:
         # Otherwise, treat it as an environment name
         logger.info(f"Loading {config_env_or_path} environment configuration.")
-        data_loader, data_transform = load_config(env=config_env_or_path)  # Load config for environment
+        data_loader, data_transform = load_config(
+            env=config_env_or_path
+        )  # Load config for environment
 
     # Load data
     logger.info("Loading data.")
@@ -46,7 +51,9 @@ def main(config_env_or_path: str):
 
     # Create preprocessing pipeline
     logger.info("Initializing preprocessing pipeline.")
-    pipeline = PreprocessingPipelineFactory.create_pipeline(data_transform.dict())  # Pass validated data_transform
+    pipeline = PreprocessingPipelineFactory.create_pipeline(
+        data_transform.dict()
+    )  # Pass validated data_transform
 
     # Run preprocessing
     logger.info("Running preprocessing pipeline.")

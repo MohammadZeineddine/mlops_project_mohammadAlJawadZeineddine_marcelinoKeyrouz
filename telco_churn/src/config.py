@@ -1,7 +1,7 @@
 import os
 from typing import Union
 from omegaconf import OmegaConf
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from typing import List, Dict
 
 
@@ -9,44 +9,44 @@ class DataLoaderConfig(BaseModel):
     file_path: str
     file_type: str
 
-from typing import Union, List, Dict
-from pydantic import BaseModel, validator
-
-from typing import Union, List, Dict
-from pydantic import BaseModel, field_validator
 
 class DataTransformPipeline(BaseModel):
     name: str
-    params: Dict[str, Union[List[str], str]]  # Allow either a list of strings or a single string for params
+    params: Dict[
+        str, Union[List[str], str]
+    ]  # Allow either a list of strings or a single string for params
 
-    @field_validator('params')
+    @field_validator("params")
     def validate_params(cls, value):
         if isinstance(value, dict):
             # Check for 'strategy' key and ensure it is either a string or a list of strings
-            if 'strategy' in value:
-                strategy = value['strategy']
+            if "strategy" in value:
+                strategy = value["strategy"]
                 if isinstance(strategy, str):
                     # If it's a string, convert it into a list of strings
-                    value['strategy'] = [strategy]
-                elif isinstance(strategy, list) and all(isinstance(i, str) for i in strategy):
+                    value["strategy"] = [strategy]
+                elif isinstance(strategy, list) and all(
+                    isinstance(i, str) for i in strategy
+                ):
                     pass  # Valid list of strings
                 else:
-                    raise ValueError(f"Invalid 'strategy' value: {strategy}. Must be a string or list of strings.")
+                    raise ValueError(
+                        f"Invalid 'strategy' value: {strategy}. Must be a string or list of strings."
+                    )
         return value
-
-
-
 
 
 class DataTransformConfig(BaseModel):
     pipeline: List[DataTransformPipeline]
 
-    @validator('pipeline')
+    @field_validator("pipeline")
     def check_pipeline_names(cls, value):
-        valid_names = {'imputer', 'encoder', 'scaler'}
+        valid_names = {"imputer", "encoder", "scaler"}
         for item in value:
             if item.name not in valid_names:
-                raise ValueError(f"Invalid pipeline name: {item.name}. Must be one of {valid_names}.")
+                raise ValueError(
+                    f"Invalid pipeline name: {item.name}. Must be one of {valid_names}."
+                )
         return value
 
 
@@ -66,7 +66,9 @@ def load_config(env: str = None, config_path: str = None):
     elif env:
         config_path = f"config/config_{env}.yaml"
         if not os.path.exists(config_path):
-            raise FileNotFoundError(f"Configuration file for environment '{env}' not found.")
+            raise FileNotFoundError(
+                f"Configuration file for environment '{env}' not found."
+            )
         config = OmegaConf.load(config_path)
     else:
         raise ValueError("Either 'env' or 'config_path' must be provided.")
