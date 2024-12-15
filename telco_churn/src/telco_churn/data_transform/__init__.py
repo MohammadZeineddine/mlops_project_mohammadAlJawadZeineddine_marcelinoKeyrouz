@@ -1,13 +1,5 @@
-from .factory import PreprocessingPipelineFactory
-from .imputer import MissingValueImputer
-from .encoder import CategoricalEncoder
-from .scaler import NumericalScaler
-from .pipeline import PreprocessingPipeline
+from .factory import transformer_factory
 
 __all__ = [
-    "PreprocessingPipelineFactory",
-    "MissingValueImputer",
-    "CategoricalEncoder",
-    "NumericalScaler",
-    "PreprocessingPipeline",
+    "transformer_factory"
 ]

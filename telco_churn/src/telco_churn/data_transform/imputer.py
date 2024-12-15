@@ -1,46 +1,41 @@
-# src/data_transform/imputer.py
-import pandas as pd
+from sklearn.impute import SimpleImputer
 from .base_transformer import BaseTransformer
+import pandas as pd
+import numpy as np
 
 
-class MissingValueImputer(BaseTransformer):
-    def __init__(self, strategy="median", columns=None):
+class DataImputer(BaseTransformer):
+    """
+    Handles missing data imputation.
+    """
+
+    def __init__(self, strategy="mean"):
         """
-        Initialize the imputer.
         Args:
-            strategy (str): Imputation strategy ('mean', 'median', 'mode').
-            columns (list or None): Columns to impute.
+            strategy (str): Imputation strategy ('mean', 'median', 'most_frequent', or 'constant').
         """
         self.strategy = strategy
-        self.columns = columns
+        self.imputer = SimpleImputer(strategy=self.strategy)
 
-    def transform(self, data: pd.DataFrame) -> pd.DataFrame:
+    def fit(self, X: pd.DataFrame, y: pd.Series = None):
         """
-        Apply missing value imputation.
+        Fits the imputer to the data.
         Args:
-            data (pd.DataFrame): Input data.
+            X (pd.DataFrame): Feature data.
+        """
+        # Convert invalid values to NaN
+        X = X.apply(pd.to_numeric, errors='coerce')
+        self.imputer.fit(X)
+
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+        """
+        Transforms the data by imputing missing values.
+        Args:
+            X (pd.DataFrame): Feature data to transform.
         Returns:
             pd.DataFrame: Data with imputed values.
         """
-        if self.columns is None:
-            self.columns = data.columns
-
-        for column in self.columns:
-            # Convert column to numeric, coercing errors to NaN
-            data[column] = pd.to_numeric(data[column], errors="coerce")
-
-            # Impute missing values based on the chosen strategy
-            if self.strategy == "mean":
-                value = data[column].mean()
-            elif self.strategy == "median":
-                value = data[column].median()
-            elif self.strategy == "mode":
-                value = data[column].mode()[0]
-            else:
-                raise ValueError(
-                    f"Invalid imputation strategy: {self.strategy}")
-
-            # Fill missing values
-            data[column] = data[column].fillna(value)
-
-        return data
+        # Convert invalid values to NaN
+        X = X.apply(pd.to_numeric, errors='coerce')
+        transformed = self.imputer.transform(X)
+        return pd.DataFrame(transformed, columns=X.columns, index=X.index)
