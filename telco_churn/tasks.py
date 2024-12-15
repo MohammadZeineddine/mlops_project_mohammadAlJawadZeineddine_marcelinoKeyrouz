@@ -43,6 +43,6 @@ def docs(ctx: Context) -> None:
 
 
 @task
-def run(ctx: Context, config: str = "config/config_preprocessing.yaml") -> None:
+def run(ctx: Context, config: str = "config/config_dev.yaml") -> None:
     """Run the data pipeline with the specified configuration file."""
     ctx.run(f"poetry run telco-churn --config {config}")

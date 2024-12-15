@@ -9,10 +9,15 @@ class MissingValueImputer(BaseTransformer):
         """
         Initialize the imputer.
         Args:
-            strategy (str): Imputation strategy ('mean', 'median', 'mode').
+            strategy (str or list): Imputation strategy ('mean', 'median', 'mode').
             columns (list or None): Columns to impute.
         """
-        self.strategy = strategy
+        # If strategy is passed as a list, use the first item
+        if isinstance(strategy, list):
+            self.strategy = strategy[0]
+        else:
+            self.strategy = strategy
+
         self.columns = columns
 
     def transform(self, data: pd.DataFrame) -> pd.DataFrame:

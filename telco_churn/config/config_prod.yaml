@@ -6,7 +6,7 @@ data_transform:
   pipeline:
     - name: "imputer"
       params:
-        strategy: "median"
+        strategy: "mean"  # Production may use mean strategy
         columns: ["TotalCharges"]
     - name: "encoder"
       params:

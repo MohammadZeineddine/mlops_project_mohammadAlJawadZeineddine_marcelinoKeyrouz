@@ -1,0 +1,16 @@
+data_loader:
+  file_path: "data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
+  file_type: "csv"
+
+data_transform:
+  pipeline:
+    - name: "imputer"
+      params:
+        strategy: "median"  # Development may use median strategy
+        columns: ["TotalCharges"]
+    - name: "encoder"
+      params:
+        columns: ["gender", "Partner", "Dependents", "Contract", "PaymentMethod"]
+    - name: "scaler"
+      params:
+        columns: ["tenure", "MonthlyCharges", "TotalCharges"]
