@@ -1,16 +1,50 @@
-data_loader:
-  file_path: "data/raw/WA_Fn-UseC_-Telco-Customer-Churn.csv"
-  file_type: "csv"
-
 data_transform:
   pipeline:
-    - name: "imputer"
+    - name: impute_missing_values
+      transformer: imputer
       params:
-        strategy: "median"
-        columns: ["TotalCharges"]
-    - name: "encoder"
+        strategy: mean
+      columns:
+        - TotalCharges
+
+    - name: encode_categorical
+      transformer: encoder
       params:
-        columns: ["gender", "Partner", "Dependents", "Contract", "PaymentMethod"]
-    - name: "scaler"
+        encoding_type: onehot
+      columns:
+        - gender
+        - Partner
+        - Dependents
+        - PhoneService
+        - MultipleLines
+        - InternetService
+        - OnlineSecurity
+        - OnlineBackup
+        - DeviceProtection
+        - TechSupport
+        - StreamingTV
+        - StreamingMovies
+        - Contract
+        - PaperlessBilling
+        - PaymentMethod
+
+    - name: scale_numeric
+      transformer: scaler
       params:
-        columns: ["tenure", "MonthlyCharges", "TotalCharges"]
+        scaling_type: standard
+      columns:
+        - MonthlyCharges
+        - tenure
+
+    - name: encode_target
+      transformer: encoder
+      params:
+        encoding_type: label
+      columns:
+        - Churn
+
+
+global_settings:
+  save_path: "data/processed/"
+
+
