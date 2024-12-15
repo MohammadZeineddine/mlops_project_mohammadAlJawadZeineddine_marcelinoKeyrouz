@@ -1,50 +1,24 @@
-from typing import Any, Dict
-
-from .base_transformer import BaseTransformer
 from .encoder import CategoricalEncoder
-from .imputer import MissingValueImputer
-from .pipeline import PreprocessingPipeline
-from .scaler import NumericalScaler
+from .imputer import DataImputer
+from .scaler import DataScaler
 
 
-class TransformerFactory:
-    @staticmethod
-    def create_transformer(name: str, params: Dict[str, Any]) -> BaseTransformer:
-        """
-        Factory method to create a transformer instance.
-        Args:
-            name (str): Name of the transformer.
-            params (dict): Parameters for the transformer.
-        Returns:
-            BaseTransformer: An instance of the requested transformer.
-        """
-        if name == "imputer":
-            return MissingValueImputer(**params)
-        elif name == "encoder":
-            return CategoricalEncoder(**params)
-        elif name == "scaler":
-            return NumericalScaler(**params)
-        else:
-            raise ValueError(f"Unsupported transformer name: {name}")
+def transformer_factory(name: str, **kwargs):
+    """
+    Factory function to create transformer instances.
 
+    Args:
+        name (str): Name of the transformer ('encoder', 'imputer', 'scaler').
+        **kwargs: Additional arguments for the transformer class.
 
-class PreprocessingPipelineFactory:
-    @staticmethod
-    def create_pipeline(config: Dict[str, Any]) -> PreprocessingPipeline:
-        """
-        Create a preprocessing pipeline from a configuration.
-        Args:
-            config (dict): Configuration dictionary with pipeline steps.
-        Returns:
-            PreprocessingPipeline: A fully constructed preprocessing pipeline.
-        """
-        steps = []
-        for step in config["pipeline"]:
-            transformer_name = step["name"]
-            transformer_params = step.get("params", {})
-            transformer = TransformerFactory.create_transformer(
-                transformer_name, transformer_params
-            )
-            steps.append(transformer)
-
-        return PreprocessingPipeline(steps=steps)
+    Returns:
+        BaseTransformer: Instance of the requested transformer.
+    """
+    if name == "encoder":
+        return CategoricalEncoder(**kwargs)
+    elif name == "imputer":
+        return DataImputer(**kwargs)
+    elif name == "scaler":
+        return DataScaler(**kwargs)
+    else:
+        raise ValueError(f"Unknown transformer name: {name}")

@@ -1,0 +1,50 @@
+data_transform:
+  pipeline:
+    - name: impute_missing_values
+      transformer: imputer
+      params:
+        strategy: mean
+      columns:
+        - TotalCharges
+
+    - name: encode_categorical
+      transformer: encoder
+      params:
+        encoding_type: onehot
+      columns:
+        - gender
+        - Partner
+        - Dependents
+        - PhoneService
+        - MultipleLines
+        - InternetService
+        - OnlineSecurity
+        - OnlineBackup
+        - DeviceProtection
+        - TechSupport
+        - StreamingTV
+        - StreamingMovies
+        - Contract
+        - PaperlessBilling
+        - PaymentMethod
+
+    - name: scale_numeric
+      transformer: scaler
+      params:
+        scaling_type: standard
+      columns:
+        - MonthlyCharges
+        - tenure
+
+    - name: encode_target
+      transformer: encoder
+      params:
+        encoding_type: label
+      columns:
+        - Churn
+
+
+global_settings:
+  save_path: "data/processed/"
+
+

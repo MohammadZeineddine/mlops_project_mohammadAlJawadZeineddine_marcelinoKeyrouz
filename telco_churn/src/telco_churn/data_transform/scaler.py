@@ -1,36 +1,38 @@
-# src/data_transform/scaler.py
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
-
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from .base_transformer import BaseTransformer
+import pandas as pd
 
 
-class NumericalScaler(BaseTransformer):
-    def __init__(self, columns=None):
+class DataScaler(BaseTransformer):
+    """
+    Scales numerical features using standardization or normalization.
+    """
+
+    def __init__(self, scaling_type="standard"):
         """
-        Initialize the scaler.
         Args:
-            columns (list or None): Columns to scale. If None, all numerical columns are scaled.
+            scaling_type (str): Type of scaling ('standard' or 'minmax').
         """
-        self.columns = columns
-        self.scaler = StandardScaler()
+        if scaling_type not in ["standard", "minmax"]:
+            raise ValueError("scaling_type must be 'standard' or 'minmax'")
+        self.scaling_type = scaling_type
+        self.scaler = StandardScaler() if scaling_type == "standard" else MinMaxScaler()
 
-    def transform(self, data: pd.DataFrame) -> pd.DataFrame:
+    def fit(self, X: pd.DataFrame, y: pd.Series = None):
         """
-        Scale numerical features.
+        Fits the scaler to the numerical features.
         Args:
-            data (pd.DataFrame): Input data.
+            X (pd.DataFrame): Feature data.
+        """
+        self.scaler.fit(X)
+
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+        """
+        Transforms the numerical features using the fitted scaler.
+        Args:
+            X (pd.DataFrame): Feature data to transform.
         Returns:
-            pd.DataFrame: Data with scaled numerical features.
+            pd.DataFrame: Scaled data.
         """
-        if self.columns is None:
-            self.columns = data.select_dtypes(include=["number"]).columns
-
-        # Fit and transform the selected columns
-        scaled_values = self.scaler.fit_transform(data[self.columns])
-
-        # Assign scaled values back to the original DataFrame column by column
-        for i, column in enumerate(self.columns):
-            data[column] = scaled_values[:, i]
-
-        return data
+        scaled = self.scaler.transform(X)
+        return pd.DataFrame(scaled, columns=X.columns, index=X.index)
