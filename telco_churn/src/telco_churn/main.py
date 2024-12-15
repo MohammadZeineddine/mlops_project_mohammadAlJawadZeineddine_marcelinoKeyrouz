@@ -65,9 +65,11 @@ def main(config_env_or_path: str):
 
     # Determine the processed file name based on environment
     if config_env_or_path == "dev":
-        processed_file = os.path.join(processed_dir, "preprocessed_telco_dev.csv")
+        processed_file = os.path.join(
+            processed_dir, "preprocessed_telco_dev.csv")
     elif config_env_or_path == "prod":
-        processed_file = os.path.join(processed_dir, "preprocessed_telco_prod.csv")
+        processed_file = os.path.join(
+            processed_dir, "preprocessed_telco_prod.csv")
     else:
         processed_file = os.path.join(processed_dir, "preprocessed_telco.csv")
 
