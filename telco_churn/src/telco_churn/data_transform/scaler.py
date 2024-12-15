@@ -1,6 +1,7 @@
 # src/data_transform/scaler.py
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
 from .base_transformer import BaseTransformer
 
 
