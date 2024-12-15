@@ -1,5 +1,6 @@
 # src/data_transform/imputer.py
 import pandas as pd
+
 from .base_transformer import BaseTransformer
 
 
@@ -37,8 +38,7 @@ class MissingValueImputer(BaseTransformer):
             elif self.strategy == "mode":
                 value = data[column].mode()[0]
             else:
-                raise ValueError(
-                    f"Invalid imputation strategy: {self.strategy}")
+                raise ValueError(f"Invalid imputation strategy: {self.strategy}")
 
             # Fill missing values
             data[column] = data[column].fillna(value)

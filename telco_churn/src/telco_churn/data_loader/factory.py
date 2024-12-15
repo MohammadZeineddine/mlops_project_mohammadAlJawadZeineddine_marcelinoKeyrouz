@@ -1,6 +1,6 @@
 # src/data_loader/factory.py
-from .csv_loader import CSVLoader
 from .base_loader import DataLoader
+from .csv_loader import CSVLoader
 
 
 class DataLoaderFactory:

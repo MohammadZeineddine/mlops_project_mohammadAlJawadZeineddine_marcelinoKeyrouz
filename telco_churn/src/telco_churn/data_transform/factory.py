@@ -1,9 +1,10 @@
 from typing import Any, Dict
-from .imputer import MissingValueImputer
-from .encoder import CategoricalEncoder
-from .scaler import NumericalScaler
-from .pipeline import PreprocessingPipeline
+
 from .base_transformer import BaseTransformer
+from .encoder import CategoricalEncoder
+from .imputer import MissingValueImputer
+from .pipeline import PreprocessingPipeline
+from .scaler import NumericalScaler
 
 
 class TransformerFactory:
@@ -42,7 +43,8 @@ class PreprocessingPipelineFactory:
             transformer_name = step["name"]
             transformer_params = step.get("params", {})
             transformer = TransformerFactory.create_transformer(
-                transformer_name, transformer_params)
+                transformer_name, transformer_params
+            )
             steps.append(transformer)
 
         return PreprocessingPipeline(steps=steps)

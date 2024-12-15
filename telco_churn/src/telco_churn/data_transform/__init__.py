@@ -1,8 +1,8 @@
+from .encoder import CategoricalEncoder
 from .factory import PreprocessingPipelineFactory
 from .imputer import MissingValueImputer
-from .encoder import CategoricalEncoder
-from .scaler import NumericalScaler
 from .pipeline import PreprocessingPipeline
+from .scaler import NumericalScaler
 
 __all__ = [
     "PreprocessingPipelineFactory",
