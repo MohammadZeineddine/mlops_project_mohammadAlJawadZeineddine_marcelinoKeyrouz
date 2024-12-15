@@ -5,9 +5,8 @@ from .pipeline import PreprocessingPipeline
 from .scaler import NumericalScaler
 
 __all__ = [
-    "PreprocessingPipelineFactory",
-    "MissingValueImputer",
     "CategoricalEncoder",
+    "PreprocessingPipeline",
     "NumericalScaler",
     "PreprocessingPipeline",
 ]

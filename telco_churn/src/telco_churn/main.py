@@ -4,7 +4,8 @@ import os
 import pandas as pd
 from loguru import logger
 from omegaconf import OmegaConf
-
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 from telco_churn.data_transform import PreprocessingPipelineFactory
 
 
@@ -13,7 +14,9 @@ def entrypoint():
     Entry point for the script, used when running with Poetry.
     Handles command-line argument parsing and calls the main function.
     """
-    parser = argparse.ArgumentParser(description="Telco Customer Churn Preprocessing")
+    parser = argparse.ArgumentParser(
+        description="Telco Customer Churn Preprocessing and Model Training"
+    )
     parser.add_argument(
         "--config",
         type=str,
@@ -26,7 +29,7 @@ def entrypoint():
 
 def main(config_path: str):
     """
-    Main function for preprocessing Telco churn data.
+    Main function for preprocessing Telco churn data and training models.
     Args:
         config_path (str): Path to the YAML configuration file.
     """
