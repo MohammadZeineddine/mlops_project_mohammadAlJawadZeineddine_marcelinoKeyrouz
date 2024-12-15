@@ -14,4 +14,4 @@ training:
   random_state: 42  # Random seed for reproducibility
 
 output:
-  model_dir: "src/telco_churn/models/"  # Directory to save the trained model
+  model_dir: "models/"  # Directory to save the trained model
