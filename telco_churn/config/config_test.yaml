@@ -16,6 +16,10 @@ training:
 output:
   model_dir: "models/"  # Directory to save the trained model for test environment
 
+mlflow:
+  tracking_uri: "http://localhost:5000"
+  experiment_name: "Telco-Churn-Experiments"
+
 data_transform:
   pipeline:
     - name: impute_missing_values
