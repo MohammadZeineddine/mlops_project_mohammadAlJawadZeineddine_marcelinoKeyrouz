@@ -1,4 +1,10 @@
-from .registry import get_model
+from .random_forest import RandomForest
+from .logistic_regression import LogisticRegression
+
+MODEL_REGISTRY = {
+    "logistic_regression": LogisticRegression,
+    "random_forest": RandomForest
+}
 
 
 def ModelFactory(name, **kwargs):
@@ -10,4 +16,6 @@ def ModelFactory(name, **kwargs):
     Returns:
         BaseModel: An instance of the requested model.
     """
-    return get_model(name, **kwargs)
+    if name not in MODEL_REGISTRY:
+        raise ValueError(f"Model {name} not found in the registry.")
+    return MODEL_REGISTRY[name](**kwargs)

@@ -1,7 +1,6 @@
 from sklearn.impute import SimpleImputer
 from .base_transformer import BaseTransformer
 import pandas as pd
-import numpy as np
 
 
 class DataImputer(BaseTransformer):

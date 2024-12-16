@@ -32,7 +32,9 @@ def run_pipeline(config, data):
             transformer_name = step["transformer"]
             transformer = TransformFactory(transformer_name, **step["params"])
             columns = step["columns"]
-            logger.debug(f"Applying transformer '{transformer_name}' on columns: {columns}")
+            logger.debug(
+                f"Applying transformer '{transformer_name}' on columns: {columns}"
+            )
             transformed_data = transformer.fit_transform(data[columns])
             data = data.drop(columns=columns).reset_index(drop=True)
             transformed_data = transformed_data.reset_index(drop=True)
@@ -52,8 +54,14 @@ def main():
 
     # Parse command-line arguments using argparse
     parser = argparse.ArgumentParser(description="Preprocess Telco churn data")
-    parser.add_argument('--config', required=True, help="Path to the YAML configuration file")
-    parser.add_argument('--data', default="data/raw/telco_churn.csv", help="Path to the input data file (default: data/raw/telco_churn.csv)")
+    parser.add_argument(
+        "--config", required=True, help="Path to the YAML configuration file"
+    )
+    parser.add_argument(
+        "--data",
+        default="data/raw/telco_churn.csv",
+        help="Path to the input data file (default: data/raw/telco_churn.csv)",
+    )
     args = parser.parse_args()
 
     config_path = args.config
@@ -90,5 +98,11 @@ def main():
 
 
 if __name__ == "__main__":
-    logger.add("./logs/preprocessing.log", rotation="500 MB", level="INFO", backtrace=True, diagnose=True)
+    logger.add(
+        "./logs/preprocessing.log",
+        rotation="500 MB",
+        level="INFO",
+        backtrace=True,
+        diagnose=True,
+    )
     main()

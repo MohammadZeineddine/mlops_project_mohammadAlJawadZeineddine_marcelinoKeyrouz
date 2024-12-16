@@ -8,6 +8,7 @@ import joblib
 from telco_churn.models import ModelFactory
 import argparse
 
+
 def load_config(config_path):
     """
     Load the training configuration from a YAML file.
@@ -22,6 +23,7 @@ def load_config(config_path):
         logger.error(f"Failed to load configuration: {e}")
         sys.exit(1)
 
+
 def main():
     """
     Train a machine learning model using a configuration file.
@@ -30,7 +32,9 @@ def main():
 
     # Argument parsing
     parser = argparse.ArgumentParser(description="Train a machine learning model.")
-    parser.add_argument("--config", required=True, help="Path to the configuration YAML file.")
+    parser.add_argument(
+        "--config", required=True, help="Path to the configuration YAML file."
+    )
     args = parser.parse_args()
 
     # Load training configuration
@@ -106,6 +110,13 @@ def main():
         logger.error(f"Failed to save model: {e}")
         sys.exit(1)
 
+
 if __name__ == "__main__":
-    logger.add("./logs/training.log", rotation="500 MB", level="INFO", backtrace=True, diagnose=True)
+    logger.add(
+        "./logs/training.log",
+        rotation="500 MB",
+        level="INFO",
+        backtrace=True,
+        diagnose=True,
+    )
     main()
