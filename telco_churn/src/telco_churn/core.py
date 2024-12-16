@@ -5,22 +5,10 @@ import pandas as pd
 from loguru import logger
 import joblib
 from sklearn.model_selection import train_test_split
-from omegaconf import OmegaConf
+from telco_churn.config import get_config
 from telco_churn.data_models import ModelFactory
 from telco_churn.data_transform import TransformerFactory
 
-def load_config(config_path):
-    """
-    Load the configuration from a YAML file using OmegaConf.
-    """
-    logger.info(f"Loading configuration from {config_path}")
-    try:
-        config = OmegaConf.load(config_path)
-        logger.success("Configuration loaded successfully.")
-        return config
-    except Exception as e:
-        logger.error(f"Failed to load configuration: {e}")
-        sys.exit(1)
 
 def run_pipeline(config, data):
     """
@@ -28,11 +16,15 @@ def run_pipeline(config, data):
     """
     logger.info("Starting preprocessing pipeline.")
     try:
-        logger.debug(f"Columns before transformation: {data.columns.tolist()}")  # Log initial columns
+        logger.debug(
+            f"Columns before transformation: {data.columns.tolist()}"
+        )  # Log initial columns
 
         for step in config.data_transform.pipeline:
             transformer_name = step.transformer
-            transformer = TransformerFactory.get_transformer(transformer_name, **step.params)
+            transformer = TransformerFactory.get_transformer(
+                transformer_name, **step.params
+            )
             columns = step.columns
 
             # Check if the required columns exist in the data
@@ -41,7 +33,9 @@ def run_pipeline(config, data):
                 logger.error(f"Missing columns in data: {missing_columns}")
                 sys.exit(1)
 
-            logger.debug(f"Applying transformer '{transformer_name}' on columns: {columns}")
+            logger.debug(
+                f"Applying transformer '{transformer_name}' on columns: {columns}"
+            )
             transformed_data = transformer.fit_transform(data[columns])
 
             # Drop the transformed columns and reset index
@@ -57,6 +51,7 @@ def run_pipeline(config, data):
     except Exception as e:
         logger.error(f"Error occurred in pipeline execution: {e}")
         sys.exit(1)
+
 
 def train_model(config, X_train, y_train, X_test, y_test):
     """
@@ -101,17 +96,6 @@ def train_model(config, X_train, y_train, X_test, y_test):
         logger.error(f"Failed to save model: {e}")
         sys.exit(1)
 
-def get_environment_from_config(config_path):
-    """
-    Extracts the environment type (dev, test, etc.) from the config file name.
-    """
-    base_name = os.path.basename(config_path)
-    if "dev" in base_name:
-        return "dev"
-    elif "test" in base_name:
-        return "test"
-    else:
-        return "default"
 
 def main():
     """
@@ -120,15 +104,17 @@ def main():
     logger.info("Starting the pipeline.")
 
     # Argument parsing
-    parser = argparse.ArgumentParser(description="Preprocess and Train a machine learning model.")
+    parser = argparse.ArgumentParser(
+        description="Preprocess and Train a machine learning model."
+    )
     parser.add_argument(
         "--config", required=True, help="Path to the configuration YAML file."
     )
     args = parser.parse_args()
 
-    # Load configuration using OmegaConf
+    # Load configuration using get_config from config.py
     config_path = args.config
-    config = load_config(config_path)
+    config, environment = get_config(config_path)
 
     # Load preprocessed dataset
     data_path = config.data.path
@@ -166,12 +152,11 @@ def main():
     # Train the model
     train_model(config, X_train, y_train, X_test, y_test)
 
-    # Get environment type (dev/test)
-    environment = get_environment_from_config(config_path)
-
     # Save the processed data (optional) with environment-specific name
     if "global_settings" in config and "save_path" in config.global_settings:
-        processed_data_path = os.path.join(config.global_settings.save_path, f"processed_data_{environment}.csv")
+        processed_data_path = os.path.join(
+            config.global_settings.save_path, f"processed_data_{environment}.csv"
+        )
         os.makedirs(os.path.dirname(processed_data_path), exist_ok=True)
         try:
             data.to_csv(processed_data_path, index=False)
@@ -179,6 +164,7 @@ def main():
         except Exception as e:
             logger.error(f"Failed to save processed data: {e}")
             sys.exit(1)
+
 
 if __name__ == "__main__":
     logger.add(
