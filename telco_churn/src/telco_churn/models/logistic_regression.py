@@ -1,6 +1,12 @@
 from .base_model import BaseModel
 from sklearn.linear_model import LogisticRegression as SklearnLogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    confusion_matrix,
+    roc_auc_score,
+)
 
 
 class LogisticRegression(BaseModel):
@@ -26,4 +32,6 @@ class LogisticRegression(BaseModel):
             "accuracy": accuracy_score(y, y_pred),
             "precision": precision_score(y, y_pred),
             "recall": recall_score(y, y_pred),
+            "confusion_matrix": confusion_matrix(y, y_pred),
+            "roc_auc": roc_auc_score(y, y_pred),
         }

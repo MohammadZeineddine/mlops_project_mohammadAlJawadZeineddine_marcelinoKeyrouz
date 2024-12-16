@@ -1,0 +1,19 @@
+data:
+  path: "data/processed/processed_data.csv"
+  target_column: "Churn"  # Target column name
+
+model:
+  name: "random_forest"  # Model to use
+  params:  # Model-specific hyperparameters
+    n_estimators: 100  # Number of trees in the forest
+    max_depth: 10  # Maximum depth of each tree
+    random_state: 42  # Random seed for reproducibility
+    min_samples_split: 2  # Minimum samples required to split a node
+    min_samples_leaf: 1  # Minimum samples required to be at a leaf node
+
+training:
+  test_size: 0.2  # Proportion of data to use for testing
+  random_state: 42  # Random seed for reproducibility
+
+output:
+  model_dir: "models/"  # Directory to save the trained model
