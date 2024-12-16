@@ -42,7 +42,7 @@ def docs(ctx: Context) -> None:
     ctx.run("poetry run pdoc src/telco-churn -o docs -d google")
 
 
-@task
-def run(ctx: Context, config: str = "config/config_dev.yaml") -> None:
-    """Run the data pipeline with the specified configuration file."""
-    ctx.run(f"poetry run telco-churn --config {config}")
+# @task
+# def run(ctx: Context, config: str = "config/config_dev.yaml") -> None:
+#     """Run the data pipeline with the specified configuration file."""
+#     ctx.run(f"poetry run telco-churn --config {config}")
