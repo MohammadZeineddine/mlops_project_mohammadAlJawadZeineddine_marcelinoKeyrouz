@@ -21,13 +21,6 @@ jobs:
         with:
           fetch-depth: 0  # Ensures all files are checked out
 
-      - name: Verify poetry.lock exists
-        run: |
-          if not exist "poetry.lock" (
-            echo "Error: poetry.lock not found in telco_churn directory!"
-            exit 1
-          )
-
       - name: Setup Project Environment
         uses: ./.github/actions/setup
 
