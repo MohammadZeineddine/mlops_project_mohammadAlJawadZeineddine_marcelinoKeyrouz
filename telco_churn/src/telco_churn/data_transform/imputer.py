@@ -1,6 +1,7 @@
 from sklearn.impute import SimpleImputer
 from .base_transformer import BaseTransformer
 import pandas as pd
+import numpy as np
 
 
 class DataImputer(BaseTransformer):
@@ -23,7 +24,7 @@ class DataImputer(BaseTransformer):
             X (pd.DataFrame): Feature data.
         """
         # Convert invalid values to NaN
-        X = X.apply(pd.to_numeric, errors="coerce")
+        X = X.apply(pd.to_numeric, errors='coerce')
         self.imputer.fit(X)
 
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
@@ -35,6 +36,6 @@ class DataImputer(BaseTransformer):
             pd.DataFrame: Data with imputed values.
         """
         # Convert invalid values to NaN
-        X = X.apply(pd.to_numeric, errors="coerce")
+        X = X.apply(pd.to_numeric, errors='coerce')
         transformed = self.imputer.transform(X)
         return pd.DataFrame(transformed, columns=X.columns, index=X.index)

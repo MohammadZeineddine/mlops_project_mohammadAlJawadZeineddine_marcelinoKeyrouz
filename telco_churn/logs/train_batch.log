@@ -1,0 +1,62 @@
+2024-12-16 22:15:15.281 | INFO     | __main__:main:81 - Starting batch training with MLflow.
+2024-12-16 22:15:15.283 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_test.yaml
+2024-12-16 22:15:15.292 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:15:15.293 | INFO     | __main__:main:96 - Loading dataset from data/raw/telco_churn.csv
+2024-12-16 22:15:15.311 | INFO     | __main__:main:101 - Running preprocessing pipeline...
+2024-12-16 22:15:15.312 | INFO     | __main__:run_pipeline:17 - Starting preprocessing pipeline.
+2024-12-16 22:15:15.371 | SUCCESS  | __main__:run_pipeline:36 - Pipeline executed successfully.
+2024-12-16 22:15:15.372 | INFO     | __main__:main:108 - Separating features and target column 'Churn'
+2024-12-16 22:15:15.378 | INFO     | __main__:main:113 - Splitting dataset into training and testing sets.
+2024-12-16 22:15:15.382 | INFO     | __main__:train_and_log_model:46 - Creating model 'logistic_regression' with parameters: {'penalty': 'l2', 'solver': 'lbfgs', 'max_iter': 2000}
+2024-12-16 22:15:17.778 | INFO     | __main__:train_and_log_model:59 - Training the model...
+2024-12-16 22:15:18.438 | INFO     | __main__:train_and_log_model:63 - Evaluating the model...
+2024-12-16 22:15:51.710 | INFO     | __main__:main:81 - Starting batch training with MLflow.
+2024-12-16 22:15:51.711 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_test.yaml
+2024-12-16 22:15:51.721 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:15:51.722 | INFO     | __main__:main:96 - Loading dataset from data/raw/telco_churn.csv
+2024-12-16 22:15:51.744 | INFO     | __main__:main:101 - Running preprocessing pipeline...
+2024-12-16 22:15:51.744 | INFO     | __main__:run_pipeline:17 - Starting preprocessing pipeline.
+2024-12-16 22:15:51.795 | SUCCESS  | __main__:run_pipeline:36 - Pipeline executed successfully.
+2024-12-16 22:15:51.796 | INFO     | __main__:main:108 - Separating features and target column 'Churn'
+2024-12-16 22:15:51.797 | INFO     | __main__:main:113 - Splitting dataset into training and testing sets.
+2024-12-16 22:15:51.802 | INFO     | __main__:train_and_log_model:46 - Creating model 'logistic_regression' with parameters: {'penalty': 'l2', 'solver': 'lbfgs', 'max_iter': 2000}
+2024-12-16 22:15:54.220 | INFO     | __main__:train_and_log_model:59 - Training the model...
+2024-12-16 22:15:54.848 | INFO     | __main__:train_and_log_model:63 - Evaluating the model...
+2024-12-16 22:17:04.752 | INFO     | __main__:main:81 - Starting batch training with MLflow.
+2024-12-16 22:17:04.753 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_test.yaml
+2024-12-16 22:17:04.765 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:17:04.767 | INFO     | __main__:main:96 - Loading dataset from data/raw/telco_churn.csv
+2024-12-16 22:17:04.798 | INFO     | __main__:main:101 - Running preprocessing pipeline...
+2024-12-16 22:17:04.799 | INFO     | __main__:run_pipeline:17 - Starting preprocessing pipeline.
+2024-12-16 22:17:04.856 | SUCCESS  | __main__:run_pipeline:36 - Pipeline executed successfully.
+2024-12-16 22:17:04.857 | INFO     | __main__:main:108 - Separating features and target column 'Churn'
+2024-12-16 22:17:04.859 | INFO     | __main__:main:113 - Splitting dataset into training and testing sets.
+2024-12-16 22:17:04.862 | INFO     | __main__:train_and_log_model:46 - Creating model 'logistic_regression' with parameters: {'penalty': 'l2', 'solver': 'lbfgs', 'max_iter': 2000}
+2024-12-16 22:17:07.260 | INFO     | __main__:train_and_log_model:59 - Training the model...
+2024-12-16 22:17:07.914 | INFO     | __main__:train_and_log_model:63 - Evaluating the model...
+2024-12-16 22:18:55.877 | INFO     | __main__:main:93 - Starting batch training with MLflow.
+2024-12-16 22:18:55.879 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_test.yaml
+2024-12-16 22:18:55.889 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:18:55.889 | INFO     | __main__:main:108 - Loading dataset from data/raw/telco_churn.csv
+2024-12-16 22:18:55.909 | INFO     | __main__:main:113 - Running preprocessing pipeline...
+2024-12-16 22:18:55.909 | INFO     | __main__:run_pipeline:17 - Starting preprocessing pipeline.
+2024-12-16 22:18:55.960 | SUCCESS  | __main__:run_pipeline:36 - Pipeline executed successfully.
+2024-12-16 22:18:55.961 | INFO     | __main__:main:120 - Separating features and target column 'Churn'
+2024-12-16 22:18:55.963 | INFO     | __main__:main:125 - Splitting dataset into training and testing sets.
+2024-12-16 22:18:55.967 | INFO     | __main__:train_and_log_model:46 - Creating model 'logistic_regression' with parameters: {'penalty': 'l2', 'solver': 'lbfgs', 'max_iter': 2000}
+2024-12-16 22:18:58.323 | INFO     | __main__:train_and_log_model:59 - Training the model...
+2024-12-16 22:18:58.985 | INFO     | __main__:train_and_log_model:63 - Evaluating the model...
+2024-12-16 22:19:35.478 | INFO     | __main__:main:94 - Starting batch training with MLflow.
+2024-12-16 22:19:35.480 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_test.yaml
+2024-12-16 22:19:35.489 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:19:35.489 | INFO     | __main__:main:109 - Loading dataset from data/raw/telco_churn.csv
+2024-12-16 22:19:35.511 | INFO     | __main__:main:114 - Running preprocessing pipeline...
+2024-12-16 22:19:35.511 | INFO     | __main__:run_pipeline:18 - Starting preprocessing pipeline.
+2024-12-16 22:19:35.562 | SUCCESS  | __main__:run_pipeline:37 - Pipeline executed successfully.
+2024-12-16 22:19:35.563 | INFO     | __main__:main:121 - Separating features and target column 'Churn'
+2024-12-16 22:19:35.564 | INFO     | __main__:main:126 - Splitting dataset into training and testing sets.
+2024-12-16 22:19:35.568 | INFO     | __main__:train_and_log_model:47 - Creating model 'logistic_regression' with parameters: {'penalty': 'l2', 'solver': 'lbfgs', 'max_iter': 2000}
+2024-12-16 22:19:37.943 | INFO     | __main__:train_and_log_model:60 - Training the model...
+2024-12-16 22:19:38.573 | INFO     | __main__:train_and_log_model:64 - Evaluating the model...
+2024-12-16 22:19:38.677 | INFO     | __main__:train_and_log_model:79 - Logged confusion matrix as an artifact.
+2024-12-16 22:19:38.854 | SUCCESS  | __main__:train_and_log_model:87 - Model saved and logged to MLflow at models/logistic_regression_model.pkl
