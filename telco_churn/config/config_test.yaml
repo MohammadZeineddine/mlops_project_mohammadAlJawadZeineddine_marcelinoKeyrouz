@@ -14,7 +14,7 @@ training:
   random_state: 42  # Random seed for reproducibility
 
 output:
-  model_dir: "models_test/"  # Directory to save the trained model for test environment
+  model_dir: "models/"  # Directory to save the trained model for test environment
 
 data_transform:
   pipeline:
@@ -62,4 +62,4 @@ data_transform:
         - Churn
 
 global_settings:
-  save_path: "data/test_processed/"
+  save_path: "data/processed/"

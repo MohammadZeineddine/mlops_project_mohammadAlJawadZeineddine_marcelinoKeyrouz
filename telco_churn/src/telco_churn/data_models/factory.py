@@ -3,7 +3,7 @@ from .logistic_regression import LogisticRegression
 
 MODEL_REGISTRY = {
     "logistic_regression": LogisticRegression,
-    "random_forest": RandomForest
+    "random_forest": RandomForest,
 }
 
 

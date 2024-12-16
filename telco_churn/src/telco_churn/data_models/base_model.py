@@ -4,7 +4,7 @@ from sklearn.base import BaseEstimator
 
 class BaseModel(ABC, BaseEstimator):
     """
-    Abstract base class for all models.
+    Abstract base class for all data_models.
     """
 
     @abstractmethod
