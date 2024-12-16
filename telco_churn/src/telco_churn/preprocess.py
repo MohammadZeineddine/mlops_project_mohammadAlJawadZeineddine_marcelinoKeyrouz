@@ -1,3 +1,4 @@
+import argparse
 from loguru import logger
 import yaml
 import pandas as pd
@@ -48,15 +49,15 @@ def main():
     Entry point for preprocessing script.
     """
     logger.info("Starting the preprocessing script.")
-    # Load data and configuration
-    if len(sys.argv) < 2:
-        logger.error("Usage: preprocess.py <config_path>")
-        sys.exit(1)
 
-    config_path = sys.argv[1]
+    # Parse command-line arguments using argparse
+    parser = argparse.ArgumentParser(description="Preprocess Telco churn data")
+    parser.add_argument('--config', required=True, help="Path to the YAML configuration file")
+    parser.add_argument('--data', default="data/raw/telco_churn.csv", help="Path to the input data file (default: data/raw/telco_churn.csv)")
+    args = parser.parse_args()
 
-    # Default data path if not provided
-    data_path = sys.argv[2] if len(sys.argv) > 2 else "data/raw/telco_churn.csv"
+    config_path = args.config
+    data_path = args.data
 
     # Load data
     try:
