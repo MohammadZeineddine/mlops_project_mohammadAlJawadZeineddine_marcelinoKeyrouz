@@ -7,7 +7,7 @@ model:
   params:  # Model-specific hyperparameters
     penalty: "l2"
     solver: "lbfgs"
-    max_iter: 1000
+    max_iter: 2000
 
 training:
   test_size: 0.2  # Proportion of data to use for testing
