@@ -1,3 +1,4 @@
-from .factory import model_factory
+from .factory import ModelFactory
+from .logistic_regression import LogisticRegression
 
-__all__ = ["model_factory"]
+__all__ = ["ModelFactory", "LogisticRegression"]

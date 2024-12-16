@@ -1,3 +1,8 @@
-from .factory import transformer_factory
+from sklearn.preprocessing import StandardScaler
 
-__all__ = ["transformer_factory"]
+from .factory import TransformFactory
+from .encoder import CategoricalEncoder
+from .imputer import DataImputer
+from .scaler import DataScaler
+
+__all__ = ["TransformFactory", "CategoricalEncoder", "DataImputer", "StandardScaler", "DataScaler"]

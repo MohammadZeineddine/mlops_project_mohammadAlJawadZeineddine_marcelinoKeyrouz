@@ -1,7 +1,7 @@
 from .registry import get_model
 
 
-def model_factory(name, **kwargs):
+def ModelFactory(name, **kwargs):
     """
     Factory function to create model instances.
     Args:
