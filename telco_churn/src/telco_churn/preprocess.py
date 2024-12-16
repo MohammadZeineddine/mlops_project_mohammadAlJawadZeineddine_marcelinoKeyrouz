@@ -49,12 +49,14 @@ def main():
     """
     logger.info("Starting the preprocessing script.")
     # Load data and configuration
-    if len(sys.argv) < 3:
-        logger.error("Usage: preprocess.py <config_path> <data_path>")
+    if len(sys.argv) < 2:
+        logger.error("Usage: preprocess.py <config_path>")
         sys.exit(1)
 
     config_path = sys.argv[1]
-    data_path = sys.argv[2]
+
+    # Default data path if not provided
+    data_path = sys.argv[2] if len(sys.argv) > 2 else "data/raw/telco_churn.csv"
 
     # Load data
     try:
