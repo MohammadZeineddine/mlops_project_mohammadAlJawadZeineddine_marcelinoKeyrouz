@@ -21,8 +21,7 @@ prometheus-client = "^0.21.1"
 prometheus-fastapi-instrumentator = "^7.0.0"
 
 [tool.poetry.scripts]
-train-telco = "telco_churn.core:main"
-preprocess-telco = "telco_churn.preprocess:main"
+telco-churn = "telco_churn.core:main"
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^15.0.0"

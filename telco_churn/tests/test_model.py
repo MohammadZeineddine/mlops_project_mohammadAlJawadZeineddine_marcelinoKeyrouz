@@ -3,7 +3,7 @@
 # import pytest
 #
 # from telco_churn.config import ModelConfig
-# from telco_churn.models import ModelFactory
+# from telco_churn.data_models import ModelFactory
 #
 # @pytest.fixture
 # def sample_data() -> pd.DataFrame:

@@ -1,29 +1,26 @@
 import argparse
 import os
 import sys
-import yaml
 import pandas as pd
 from loguru import logger
 import joblib
 from sklearn.model_selection import train_test_split
-from telco_churn.models import ModelFactory
+from omegaconf import OmegaConf
+from telco_churn.data_models import ModelFactory
 from telco_churn.data_transform import TransformerFactory
-
 
 def load_config(config_path):
     """
-    Load the configuration from a YAML file.
+    Load the configuration from a YAML file using OmegaConf.
     """
     logger.info(f"Loading configuration from {config_path}")
     try:
-        with open(config_path, "r") as file:
-            config = yaml.safe_load(file)
+        config = OmegaConf.load(config_path)
         logger.success("Configuration loaded successfully.")
         return config
     except Exception as e:
         logger.error(f"Failed to load configuration: {e}")
         sys.exit(1)
-
 
 def run_pipeline(config, data):
     """
@@ -33,10 +30,10 @@ def run_pipeline(config, data):
     try:
         logger.debug(f"Columns before transformation: {data.columns.tolist()}")  # Log initial columns
 
-        for step in config["data_transform"]["pipeline"]:
-            transformer_name = step["transformer"]
-            transformer = TransformerFactory.get_transformer(transformer_name, **step["params"])
-            columns = step["columns"]
+        for step in config.data_transform.pipeline:
+            transformer_name = step.transformer
+            transformer = TransformerFactory.get_transformer(transformer_name, **step.params)
+            columns = step.columns
 
             # Check if the required columns exist in the data
             missing_columns = [col for col in columns if col not in data.columns]
@@ -61,14 +58,12 @@ def run_pipeline(config, data):
         logger.error(f"Error occurred in pipeline execution: {e}")
         sys.exit(1)
 
-
-
 def train_model(config, X_train, y_train, X_test, y_test):
     """
     Train a machine learning model using the given configuration and data.
     """
-    model_name = config["model"]["name"]
-    model_params = config["model"].get("params", {})
+    model_name = config.model.name
+    model_params = config.model.get("params", {})
     logger.info(f"Creating model '{model_name}' with parameters: {model_params}")
     try:
         model = ModelFactory(model_name, **model_params)
@@ -96,7 +91,7 @@ def train_model(config, X_train, y_train, X_test, y_test):
         sys.exit(1)
 
     # Save the model
-    output_dir = config["output"]["model_dir"]
+    output_dir = config.output.model_dir
     os.makedirs(output_dir, exist_ok=True)
     model_path = os.path.join(output_dir, f"{model_name}_model.pkl")
     try:
@@ -106,6 +101,17 @@ def train_model(config, X_train, y_train, X_test, y_test):
         logger.error(f"Failed to save model: {e}")
         sys.exit(1)
 
+def get_environment_from_config(config_path):
+    """
+    Extracts the environment type (dev, test, etc.) from the config file name.
+    """
+    base_name = os.path.basename(config_path)
+    if "dev" in base_name:
+        return "dev"
+    elif "test" in base_name:
+        return "test"
+    else:
+        return "default"
 
 def main():
     """
@@ -120,12 +126,12 @@ def main():
     )
     args = parser.parse_args()
 
-    # Load configuration
+    # Load configuration using OmegaConf
     config_path = args.config
     config = load_config(config_path)
 
     # Load preprocessed dataset
-    data_path = config["data"]["path"]
+    data_path = config.data.path
     try:
         logger.info(f"Loading dataset from {data_path}")
         data = pd.read_csv(data_path)
@@ -139,14 +145,14 @@ def main():
         data = run_pipeline(config, data)
 
     # Separate features and target
-    target_column = config["data"]["target_column"]
+    target_column = config.data.target_column
     logger.info(f"Separating features and target column '{target_column}'")
     X = data.drop(columns=[target_column, "customerID"])
     y = data[target_column]
 
     # Split dataset
-    test_size = config["training"]["test_size"]
-    random_state = config["training"]["random_state"]
+    test_size = config.training.test_size
+    random_state = config.training.random_state
     logger.info("Splitting dataset into training and testing sets.")
     try:
         X_train, X_test, y_train, y_test = train_test_split(
@@ -160,9 +166,12 @@ def main():
     # Train the model
     train_model(config, X_train, y_train, X_test, y_test)
 
-    # Save the processed data (optional)
-    if "global_settings" in config and "save_path" in config["global_settings"]:
-        processed_data_path = os.path.join(config["global_settings"]["save_path"], "processed_data.csv")
+    # Get environment type (dev/test)
+    environment = get_environment_from_config(config_path)
+
+    # Save the processed data (optional) with environment-specific name
+    if "global_settings" in config and "save_path" in config.global_settings:
+        processed_data_path = os.path.join(config.global_settings.save_path, f"processed_data_{environment}.csv")
         os.makedirs(os.path.dirname(processed_data_path), exist_ok=True)
         try:
             data.to_csv(processed_data_path, index=False)
@@ -170,7 +179,6 @@ def main():
         except Exception as e:
             logger.error(f"Failed to save processed data: {e}")
             sys.exit(1)
-
 
 if __name__ == "__main__":
     logger.add(
