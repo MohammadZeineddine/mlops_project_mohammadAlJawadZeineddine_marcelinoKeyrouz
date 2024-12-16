@@ -5,8 +5,8 @@ import yaml
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import joblib
-from models.factory import model_factory
-
+from telco_churn.models import ModelFactory
+import argparse
 
 def load_config(config_path):
     """
@@ -22,18 +22,19 @@ def load_config(config_path):
         logger.error(f"Failed to load configuration: {e}")
         sys.exit(1)
 
-
 def main():
     """
     Train a machine learning model using a configuration file.
     """
     logger.info("Starting the training script.")
-    # Load training configuration
-    if len(sys.argv) < 2:
-        logger.error("Usage: train.py <config_path>")
-        sys.exit(1)
 
-    config_path = sys.argv[1]
+    # Argument parsing
+    parser = argparse.ArgumentParser(description="Train a machine learning model.")
+    parser.add_argument("--config", required=True, help="Path to the configuration YAML file.")
+    args = parser.parse_args()
+
+    # Load training configuration
+    config_path = args.config
     config = load_config(config_path)
 
     # Load preprocessed dataset
@@ -70,7 +71,7 @@ def main():
     model_params = config["model"].get("params", {})
     logger.info(f"Creating model '{model_name}' with parameters: {model_params}")
     try:
-        model = model_factory(model_name, **model_params)
+        model = ModelFactory(model_name, **model_params)
         logger.success(f"Model '{model_name}' created successfully.")
     except Exception as e:
         logger.error(f"Failed to create model: {e}")
@@ -104,7 +105,6 @@ def main():
     except Exception as e:
         logger.error(f"Failed to save model: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     logger.add("./logs/training.log", rotation="500 MB", level="INFO", backtrace=True, diagnose=True)

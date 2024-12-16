@@ -3,7 +3,7 @@ import yaml
 import pandas as pd
 import os
 import sys
-from telco_churn.data_transform import transformer_factory
+from telco_churn.data_transform import TransformFactory
 
 
 def load_config(config_path):
@@ -29,7 +29,7 @@ def run_pipeline(config, data):
     try:
         for step in config["data_transform"]["pipeline"]:
             transformer_name = step["transformer"]
-            transformer = transformer_factory(transformer_name, **step["params"])
+            transformer = TransformFactory(transformer_name, **step["params"])
             columns = step["columns"]
             logger.debug(f"Applying transformer '{transformer_name}' on columns: {columns}")
             transformed_data = transformer.fit_transform(data[columns])

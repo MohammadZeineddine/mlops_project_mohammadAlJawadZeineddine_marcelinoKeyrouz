@@ -3,7 +3,7 @@ from .imputer import DataImputer
 from .scaler import DataScaler
 
 
-def transformer_factory(name: str, **kwargs):
+def TransformFactory(name: str, **kwargs):
     """
     Factory function to create transformer instances.
 
