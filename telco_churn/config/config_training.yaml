@@ -1,9 +1,9 @@
 data:
-  path: "data/processed/processed_data.csv"  # Path to the preprocessed data
+  path: "data/processed/processed_data.csv"
   target_column: "Churn"  # Target column name
 
 model:
-  name: "logistic_regression"  # Model to use (as defined in your factory)
+  name: "logistic_regression"  # Model to use
   params:  # Model-specific hyperparameters
     penalty: "l2"
     solver: "lbfgs"

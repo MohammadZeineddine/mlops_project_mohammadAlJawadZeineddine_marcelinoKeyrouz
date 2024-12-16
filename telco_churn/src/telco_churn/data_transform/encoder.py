@@ -25,12 +25,10 @@ class CategoricalEncoder(BaseTransformer):
             X (pd.DataFrame): Feature data.
         """
         if self.encoding_type == "onehot":
-            self.encoder = OneHotEncoder(
-                sparse_output=False, handle_unknown='ignore')
+            self.encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
             self.encoder.fit(X)
         elif self.encoding_type == "label":
-            self.encoder = {col: LabelEncoder().fit(
-                X[col]) for col in X.columns}
+            self.encoder = {col: LabelEncoder().fit(X[col]) for col in X.columns}
 
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         """

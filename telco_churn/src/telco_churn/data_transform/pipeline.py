@@ -36,8 +36,8 @@ class DataPipeline:
         self.scaler = StandardScalerTransformer()
 
     def run(self):
-        df = pd.read_csv(self.config['input_path'])
+        df = pd.read_csv(self.config["input_path"])
         df = self.imputer.fit_transform(df)
         df = self.encoder.fit_transform(df)
         df = self.scaler.fit_transform(df)
-        df.to_csv(self.config['output_path'], index=False)
+        df.to_csv(self.config["output_path"], index=False)
