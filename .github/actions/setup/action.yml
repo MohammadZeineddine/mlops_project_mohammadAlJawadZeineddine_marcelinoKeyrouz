@@ -7,6 +7,6 @@ runs:
       shell: bash
     - uses: actions/setup-python@v5
       with:
-        python-version: [3.10, 3.11, 3.12, 3.13]
+        python-version: 3.13.1
         cache: poetry # Cache dependencies to speed up subsequent runs.
 
