@@ -1,3 +1,21 @@
+data:
+  path: "data/raw/telco_churn.csv"
+  target_column: "Churn"  # Target column name
+
+model:
+  name: "logistic_regression"  # Model to use
+  params:  # Model-specific hyperparameters
+    penalty: "l2"
+    solver: "lbfgs"
+    max_iter: 2000
+
+training:
+  test_size: 0.25  # Proportion of data to use for testing in test environment
+  random_state: 42  # Random seed for reproducibility
+
+output:
+  model_dir: "models_test/"  # Directory to save the trained model for test environment
+
 data_transform:
   pipeline:
     - name: impute_missing_values
@@ -43,8 +61,5 @@ data_transform:
       columns:
         - Churn
 
-
 global_settings:
-  save_path: "data/processed/"
-
-
+  save_path: "data/test_processed/"
