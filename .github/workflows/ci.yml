@@ -18,6 +18,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures all files are checked out
+
+      - name: Verify poetry.lock exists
+        run: |
+          if not exist "poetry.lock" (
+            echo "Error: poetry.lock not found in telco_churn directory!"
+            exit 1
+          )
 
       - name: Setup Project Environment
         uses: ./.github/actions/setup
@@ -33,6 +42,3 @@ jobs:
 
       - name: Run Linting
         run: poetry run invoke lint
-
-      # - name: Run Typing Checks
-      #   run: poetry run invoke type
