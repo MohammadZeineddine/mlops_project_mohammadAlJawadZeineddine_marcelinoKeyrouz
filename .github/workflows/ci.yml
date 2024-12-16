@@ -13,18 +13,16 @@ jobs:
     runs-on: windows-latest
     defaults:
       run:
-        working-directory: ./telco_churn
+        working-directory: ./
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Ensures all files are checked out
 
       - name: Setup Project Environment
         uses: ./.github/actions/setup
 
-      - name: Install Required Dependencies
+      - name: Install Dependencies
         run: poetry install
 
       - name: Run formatting
@@ -35,3 +33,6 @@ jobs:
 
       - name: Run Linting
         run: poetry run invoke lint
+
+      # - name: Run Typing Checks
+      #   run: poetry run invoke type
