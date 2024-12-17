@@ -11,3 +11,4 @@ pipeline.log
 
 # Ignore mlflow artifacts
 mlruns/
+mlartifacts/
