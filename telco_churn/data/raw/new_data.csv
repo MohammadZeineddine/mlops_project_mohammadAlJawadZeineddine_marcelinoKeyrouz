@@ -1,0 +1,11 @@
+customerID,gender,SeniorCitizen,Partner,Dependents,tenure,PhoneService,MultipleLines,InternetService,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,Contract,PaperlessBilling,PaymentMethod,MonthlyCharges,TotalCharges,Churn
+TEST-6044-A,Female,0,No,No,42,Yes,No,Fiber optic,No,No,Yes,No internet service,Yes,No,One year,Yes,Bank transfer (automatic),104.68,8065.0,Yes
+TEST-9190-C,Female,0,Yes,Yes,39,No,No,Fiber optic,No internet service,No,No internet service,No,No internet service,No,One year,Yes,Electronic check,27.22,93.94,No
+TEST-2032-D,Female,0,Yes,Yes,43,No,No phone service,Fiber optic,No internet service,Yes,Yes,Yes,No internet service,No internet service,Month-to-month,Yes,Credit card (automatic),33.14,4712.13,Yes
+TEST-1335-B,Male,0,Yes,Yes,48,No,No,Fiber optic,Yes,No internet service,No,Yes,No,No internet service,Two year,Yes,Credit card (automatic),95.09,1132.57,Yes
+TEST-4442-A,Male,1,No,No,64,No,No,DSL,No,No,No internet service,Yes,No internet service,Yes,One year,No,Bank transfer (automatic),58.02,4205.04,Yes
+TEST-9180-A,Female,0,No,Yes,58,No,No,Fiber optic,No internet service,Yes,No,Yes,No internet service,Yes,Month-to-month,No,Mailed check,45.79,8166.61,Yes
+TEST-5091-D,Male,1,Yes,No,71,No,Yes,Fiber optic,No internet service,Yes,No,No internet service,No,No,One year,Yes,Mailed check,79.65,2850.02,No
+TEST-7843-A,Female,1,No,Yes,50,Yes,Yes,No,Yes,Yes,Yes,No,No internet service,No,Two year,No,Credit card (automatic),76.68,8866.08,Yes
+TEST-3722-A,Female,1,No,Yes,25,No,Yes,Fiber optic,Yes,No,No internet service,Yes,No,Yes,Two year,Yes,Credit card (automatic),65.9,7976.41,Yes
+TEST-1146-B,Female,0,Yes,No,32,Yes,Yes,No,Yes,No internet service,Yes,No internet service,No internet service,No,Two year,No,Credit card (automatic),36.42,5748.77,No

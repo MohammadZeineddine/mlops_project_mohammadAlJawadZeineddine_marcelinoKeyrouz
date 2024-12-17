@@ -1,0 +1,100 @@
+2024-12-16 22:54:07.808 | INFO     | __main__:main:63 - Starting batch inference.
+2024-12-16 22:54:07.809 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 22:54:07.825 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:54:07.826 | INFO     | __main__:main:80 - Loading input data from data/raw/new_data.csv.
+2024-12-16 22:58:09.198 | INFO     | __main__:main:63 - Starting batch inference.
+2024-12-16 22:58:09.199 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 22:58:09.206 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:58:09.212 | INFO     | __main__:main:80 - Loading input data from data/raw/new_data.csv.
+2024-12-16 22:58:09.215 | INFO     | __main__:main:85 - Running preprocessing pipeline on input data.
+2024-12-16 22:58:09.215 | INFO     | __main__:run_pipeline:14 - Starting preprocessing pipeline.
+2024-12-16 23:02:48.665 | INFO     | __main__:main:57 - Starting batch inference.
+2024-12-16 23:02:48.666 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:02:48.684 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 23:02:48.684 | INFO     | __main__:main:74 - Loading input data from data/raw/new_data.csv.
+2024-12-16 23:04:23.147 | INFO     | __main__:main:57 - Starting batch inference.
+2024-12-16 23:04:23.149 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:04:23.157 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 23:04:23.158 | INFO     | __main__:main:74 - Loading input data from data/raw/new_data.csv.
+2024-12-16 23:07:09.372 | INFO     | __main__:main:68 - Starting batch inference.
+2024-12-16 23:07:09.373 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:07:09.382 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:22:16.404 | INFO     | __main__:main:68 - Starting batch inference.
+2024-12-17 20:22:16.406 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:22:16.419 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:26:23.189 | INFO     | __main__:main:77 - Starting batch inference.
+2024-12-17 20:26:23.190 | INFO     | __main__:main:93 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:26:23.205 | INFO     | __main__:build_preprocessing_pipeline:16 - Reconstructing preprocessing pipeline...
+2024-12-17 20:26:23.205 | SUCCESS  | __main__:build_preprocessing_pipeline:47 - Preprocessing pipeline reconstructed successfully.
+2024-12-17 20:26:23.205 | WARNING  | __main__:main:98 - Refitting the pipeline with default assumptions. Ensure training data is available for consistency.
+2024-12-17 20:26:23.227 | INFO     | __main__:load_model:55 - Loading trained model from models/logistic_regression_model.pkl.
+2024-12-17 20:26:23.688 | SUCCESS  | __main__:load_model:57 - Model loaded successfully.
+2024-12-17 20:26:23.688 | INFO     | __main__:predict_and_save:65 - Making predictions.
+2024-12-17 20:37:27.410 | INFO     | __main__:main:59 - Starting batch inference.
+2024-12-17 20:37:27.412 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:37:27.418 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:37:27.418 | INFO     | __main__:main:76 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:37:27.422 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:37:28.078 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:37:28.078 | INFO     | __main__:main:85 - Preprocessing input data.
+2024-12-17 20:37:28.079 | INFO     | __main__:preprocess_data:33 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:41:34.042 | INFO     | __main__:main:59 - Starting batch inference.
+2024-12-17 20:41:34.043 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:41:34.052 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:41:34.052 | INFO     | __main__:main:76 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:41:34.056 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:41:34.702 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:41:34.702 | INFO     | __main__:main:85 - Preprocessing input data.
+2024-12-17 20:41:34.703 | INFO     | __main__:preprocess_data:33 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:43:56.010 | INFO     | __main__:main:84 - Starting batch inference.
+2024-12-17 20:43:56.011 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:43:56.018 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:43:56.018 | INFO     | __main__:main:101 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:43:56.022 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:43:56.697 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:43:56.698 | INFO     | __main__:main:110 - Preprocessing input data.
+2024-12-17 20:43:56.698 | INFO     | __main__:preprocess_data:33 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:43:56.716 | SUCCESS  | __main__:preprocess_data:64 - Data preprocessing completed successfully.
+2024-12-17 20:43:56.716 | INFO     | __main__:load_model:23 - Loading trained model from models/logistic_regression_model.pkl.
+2024-12-17 20:43:56.757 | SUCCESS  | __main__:load_model:25 - Trained model loaded successfully.
+2024-12-17 20:43:56.758 | INFO     | __main__:predict_and_save:72 - Making predictions using the trained model.
+2024-12-17 20:47:01.783 | INFO     | __main__:main:76 - Starting batch inference.
+2024-12-17 20:47:01.783 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:47:01.791 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:47:01.792 | INFO     | __main__:main:93 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:47:01.796 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:47:02.529 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:47:02.530 | INFO     | __main__:main:102 - Preprocessing input data.
+2024-12-17 20:47:02.530 | INFO     | __main__:preprocess_data:34 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:47:02.549 | SUCCESS  | __main__:preprocess_data:56 - Data preprocessing completed successfully.
+2024-12-17 20:47:02.550 | INFO     | __main__:load_model:23 - Loading trained model from models/logistic_regression_model.pkl.
+2024-12-17 20:47:02.613 | SUCCESS  | __main__:load_model:25 - Trained model loaded successfully.
+2024-12-17 20:47:02.613 | INFO     | __main__:main:110 - Ensuring feature names align with model training.
+2024-12-17 20:47:02.615 | INFO     | __main__:predict_and_save:64 - Making predictions using the trained model.
+2024-12-17 20:47:02.624 | SUCCESS  | __main__:predict_and_save:69 - Predictions saved to output/predictions.csv.
+2024-12-17 20:49:42.921 | INFO     | __main__:main:87 - Starting batch inference.
+2024-12-17 20:49:42.923 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:49:42.933 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:49:42.933 | INFO     | __main__:main:104 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:49:42.938 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:49:43.920 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:49:43.920 | INFO     | __main__:main:113 - Preprocessing input data.
+2024-12-17 20:49:43.920 | INFO     | __main__:preprocess_data:34 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:49:43.956 | SUCCESS  | __main__:preprocess_data:56 - Data preprocessing completed successfully.
+2024-12-17 20:49:43.957 | INFO     | __main__:load_model:23 - Loading trained model from models/logistic_regression_model.pkl.
+2024-12-17 20:49:44.024 | SUCCESS  | __main__:load_model:25 - Trained model loaded successfully.
+2024-12-17 20:49:44.025 | INFO     | __main__:main:121 - Ensuring feature names align with model training.
+2024-12-17 20:50:19.796 | INFO     | __main__:main:87 - Starting batch inference.
+2024-12-17 20:50:19.798 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-17 20:50:19.804 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-17 20:50:19.804 | INFO     | __main__:main:104 - Loading input data from data/raw/new_data.csv.
+2024-12-17 20:50:19.809 | INFO     | __main__:load_pipeline:13 - Loading preprocessing pipeline from models/preprocessing_pipeline.pkl.
+2024-12-17 20:50:20.454 | SUCCESS  | __main__:load_pipeline:15 - Preprocessing pipeline loaded successfully.
+2024-12-17 20:50:20.455 | INFO     | __main__:main:113 - Preprocessing input data.
+2024-12-17 20:50:20.455 | INFO     | __main__:preprocess_data:34 - Applying the preprocessing pipeline on the input data.
+2024-12-17 20:50:20.470 | SUCCESS  | __main__:preprocess_data:56 - Data preprocessing completed successfully.
+2024-12-17 20:50:20.470 | INFO     | __main__:load_model:23 - Loading trained model from models/logistic_regression_model.pkl.
+2024-12-17 20:50:20.510 | SUCCESS  | __main__:load_model:25 - Trained model loaded successfully.
+2024-12-17 20:50:20.510 | INFO     | __main__:main:121 - Ensuring feature names align with model training.
+2024-12-17 20:50:20.510 | INFO     | __main__:predict_and_save:65 - Making predictions using the trained model.
+2024-12-17 20:50:20.516 | SUCCESS  | __main__:predict_and_save:80 - Predictions saved to output/predictions.csv with customerID.
