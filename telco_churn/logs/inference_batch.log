@@ -1,0 +1,21 @@
+2024-12-16 22:54:07.808 | INFO     | __main__:main:63 - Starting batch inference.
+2024-12-16 22:54:07.809 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 22:54:07.825 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:54:07.826 | INFO     | __main__:main:80 - Loading input data from data/raw/new_data.csv.
+2024-12-16 22:58:09.198 | INFO     | __main__:main:63 - Starting batch inference.
+2024-12-16 22:58:09.199 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 22:58:09.206 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 22:58:09.212 | INFO     | __main__:main:80 - Loading input data from data/raw/new_data.csv.
+2024-12-16 22:58:09.215 | INFO     | __main__:main:85 - Running preprocessing pipeline on input data.
+2024-12-16 22:58:09.215 | INFO     | __main__:run_pipeline:14 - Starting preprocessing pipeline.
+2024-12-16 23:02:48.665 | INFO     | __main__:main:57 - Starting batch inference.
+2024-12-16 23:02:48.666 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:02:48.684 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 23:02:48.684 | INFO     | __main__:main:74 - Loading input data from data/raw/new_data.csv.
+2024-12-16 23:04:23.147 | INFO     | __main__:main:57 - Starting batch inference.
+2024-12-16 23:04:23.149 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:04:23.157 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
+2024-12-16 23:04:23.158 | INFO     | __main__:main:74 - Loading input data from data/raw/new_data.csv.
+2024-12-16 23:07:09.372 | INFO     | __main__:main:68 - Starting batch inference.
+2024-12-16 23:07:09.373 | INFO     | telco_churn.config:load_config:11 - Loading configuration from config/config_inference.yaml
+2024-12-16 23:07:09.382 | SUCCESS  | telco_churn.config:load_config:14 - Configuration loaded successfully.
