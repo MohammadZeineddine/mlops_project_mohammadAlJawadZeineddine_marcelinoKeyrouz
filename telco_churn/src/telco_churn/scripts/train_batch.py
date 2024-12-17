@@ -132,6 +132,10 @@ def main():
         X, y, test_size=config.training.test_size, random_state=config.training.random_state
     )
 
+    feature_names = X_train.columns.tolist()
+    with open(os.path.join(config.output.model_dir, "feature_names.txt"), "w") as f:
+        f.write("\n".join(feature_names))
+
     # Train the model and log to MLflow
     train_and_log_model(config, X_train, y_train, X_test, y_test)
 
