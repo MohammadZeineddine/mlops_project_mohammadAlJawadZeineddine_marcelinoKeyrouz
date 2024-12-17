@@ -11,11 +11,13 @@ from telco_churn.data_models import ModelFactory
 from telco_churn.data_transform import TransformerFactory
 
 
-def run_pipeline(config, data):
+def run_pipeline(config, data, save_pipeline=False, pipeline_path=None):
     """
     Executes the preprocessing pipeline on the input data.
+    Optionally saves the fitted pipeline.
     """
     logger.info("Starting preprocessing pipeline.")
+    pipeline_steps = []
     for step in config.data_transform.pipeline:
         transformer_name = step.transformer
         transformer = TransformerFactory.get_transformer(
@@ -30,12 +32,20 @@ def run_pipeline(config, data):
 
         # Apply transformations
         transformed_data = transformer.fit_transform(data[columns])
+        pipeline_steps.append((transformer_name, transformer, columns))
         data = data.drop(columns=columns).reset_index(drop=True)
         transformed_data = transformed_data.reset_index(drop=True)
         data = pd.concat([data, transformed_data], axis=1)
 
     logger.success("Pipeline executed successfully.")
-    return data
+
+    # Save pipeline if needed
+    if save_pipeline and pipeline_path:
+        logger.info(f"Saving preprocessing pipeline to {pipeline_path}.")
+        joblib.dump(pipeline_steps, pipeline_path)
+        logger.success("Preprocessing pipeline saved successfully.")
+
+    return data, pipeline_steps
 
 
 def train_and_log_model(config, X_train, y_train, X_test, y_test):
@@ -69,16 +79,7 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         ) if isinstance(v, (int, float, np.float64))}
         mlflow.log_metrics(scalar_metrics)
 
-        # Log non-scalar metrics as artifacts or skip
-        if "confusion_matrix" in metrics:
-            confusion_matrix_path = os.path.join(
-                config.output.model_dir, "confusion_matrix.csv")
-            pd.DataFrame(metrics["confusion_matrix"]).to_csv(
-                confusion_matrix_path, index=False)
-            mlflow.log_artifact(confusion_matrix_path)
-            logger.info("Logged confusion matrix as an artifact.")
-
-        # Save and log the model
+        # Save the model
         output_dir = config.output.model_dir
         os.makedirs(output_dir, exist_ok=True)
         model_path = os.path.join(output_dir, f"{model_name}_model.pkl")
@@ -110,9 +111,12 @@ def main():
     data = pd.read_csv(data_path)
 
     # Check if preprocessing is needed
+    pipeline_path = os.path.join(
+        config.output.model_dir, "preprocessing_pipeline.pkl")
     if "data_transform" in config:
         logger.info("Running preprocessing pipeline...")
-        data = run_pipeline(config, data)
+        data, _ = run_pipeline(
+            config, data, save_pipeline=True, pipeline_path=pipeline_path)
     else:
         logger.info("Using preprocessed data.")
 
