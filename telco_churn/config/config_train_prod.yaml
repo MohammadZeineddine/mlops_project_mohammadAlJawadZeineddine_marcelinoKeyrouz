@@ -1,24 +1,25 @@
 data:
   path: "data/raw/telco_churn.csv"
-  target_column: "Churn"  # Target column name
+  target_column: "Churn"
 
 model:
-  name: "logistic_regression"  # Model to use
-  params:  # Model-specific hyperparameters
-    penalty: "l2"
-    solver: "lbfgs"
-    max_iter: 2000
+  name: "random_forest"
+  params:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2  # Minimum samples required to split a node
+    min_samples_leaf: 1  # Minimum samples required to be at a leaf node
 
 training:
-  test_size: 0.25  # Proportion of data to use for testing in test environment
   random_state: 42  # Random seed for reproducibility
-
-output:
-  model_dir: "models/"  # Directory to save the trained model for test environment
+  test_size: 0.2  # Proportion of data to use for testing
 
 mlflow:
-  tracking_uri: "http://localhost:5000"
+  tracking_uri: "sqlite:///mlflow.db"
   experiment_name: "Telco-Churn-Experiments"
+
+output:
+  model_dir: "models/"  # Directory to save the trained model
 
 data_transform:
   pipeline:

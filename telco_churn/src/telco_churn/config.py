@@ -1,4 +1,3 @@
-import os
 import sys
 from omegaconf import OmegaConf
 from loguru import logger
@@ -18,23 +17,9 @@ def load_config(config_path):
         sys.exit(1)
 
 
-def get_environment_from_config(config_path):
-    """
-    Extracts the environment type (dev, test, etc.) from the config file name.
-    """
-    base_name = os.path.basename(config_path)
-    if "dev" in base_name:
-        return "dev"
-    elif "test" in base_name:
-        return "test"
-    else:
-        return "default"
-
-
 def get_config(config_path):
     """
     Load configuration and determine the environment from the config file.
     """
     config = load_config(config_path)
-    environment = get_environment_from_config(config_path)
-    return config, environment
+    return config

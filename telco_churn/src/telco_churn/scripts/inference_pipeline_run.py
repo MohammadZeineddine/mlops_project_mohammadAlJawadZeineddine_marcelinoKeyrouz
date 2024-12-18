@@ -1,3 +1,4 @@
+import os
 from telco_churn.core import load_pipeline
 import pandas as pd
 from loguru import logger
@@ -14,6 +15,12 @@ def main():
     OUTPUT_PATH = "output/predictions_with_customerID.csv"
 
     try:
+        # Create output directory if it doesn't exist
+        output_dir = os.path.dirname(OUTPUT_PATH)
+        if not os.path.exists(output_dir):
+            logger.info(f"Creating output directory: {output_dir}")
+            os.makedirs(output_dir)
+
         # Load new data
         logger.info("Loading new data.")
         raw_data = pd.read_csv(NEW_DATA_PATH)
