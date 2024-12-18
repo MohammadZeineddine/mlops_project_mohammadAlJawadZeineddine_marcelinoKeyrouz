@@ -22,6 +22,10 @@ prometheus-fastapi-instrumentator = "^7.0.0"
 
 [tool.poetry.scripts]
 telco-churn = "telco_churn.core:main"
+train-telco = "telco_churn.scripts.train_batch:main"
+inference-batch = "telco_churn.scripts.inference_batch:main"
+inference-pipeline = "telco_churn.scripts.inference_pipeline_run:main"
+
 
 [tool.poetry.group.dev.dependencies]
 pdoc = "^15.0.0"
