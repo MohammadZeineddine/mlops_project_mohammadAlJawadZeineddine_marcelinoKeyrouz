@@ -2,6 +2,7 @@ from __future__ import annotations
 import pandas as pd
 from loguru import logger
 import joblib
+import argparse
 
 from telco_churn.data_transform.factory import TransformerFactory
 from telco_churn.data_models.factory import ModelFactory
@@ -10,14 +11,6 @@ from telco_churn.data_models.factory import ModelFactory
 def load_pipeline(preprocessing_path: str, model_path: str, feature_names_path: str) -> InferencePipeline:
     """
     Load the saved preprocessing pipeline, trained model, and feature names.
-
-    Args:
-        preprocessing_path (str): Path to the saved preprocessing pipeline.
-        model_path (str): Path to the saved trained model.
-        feature_names_path (str): Path to the saved feature names.
-
-    Returns:
-        InferencePipeline: Initialized inference pipeline.
     """
     logger.info(
         "Loading preprocessing pipeline, trained model, and feature names.")
@@ -34,19 +27,8 @@ class InferencePipeline:
     """
     Class to handle the entire inference pipeline, including preprocessing and model prediction.
     """
-    _preprocessing_pipeline: list
-    _model: object
-    _feature_names: list
 
     def __init__(self, preprocessing_pipeline: list, model: object, feature_names: list):
-        """
-        Initialize the inference pipeline.
-
-        Args:
-            preprocessing_pipeline (list): The saved preprocessing pipeline steps.
-            model (object): The trained machine learning model.
-            feature_names (list): Feature names seen during training.
-        """
         self._preprocessing_pipeline = preprocessing_pipeline
         self._model = model
         self._feature_names = feature_names
@@ -54,12 +36,6 @@ class InferencePipeline:
     def run(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Run the preprocessing pipeline and model prediction on input data.
-
-        Args:
-            data (pd.DataFrame): The input raw data for inference.
-
-        Returns:
-            pd.DataFrame: Predictions as a DataFrame.
         """
         try:
             logger.info("Pipeline execution started.")
@@ -94,12 +70,6 @@ class InferencePipeline:
     def _apply_pipeline(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Apply the preprocessing pipeline step-by-step to the input data.
-
-        Args:
-            data (pd.DataFrame): Raw input data.
-
-        Returns:
-            pd.DataFrame: Transformed data ready for model inference.
         """
         for step_name, transformer, columns in self._preprocessing_pipeline:
             logger.debug(f"Applying step '{step_name}' on columns {columns}.")
@@ -121,12 +91,50 @@ class InferencePipeline:
     def _align_features(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Align transformed data's features to match those seen during training.
-
-        Args:
-            data (pd.DataFrame): Transformed input data.
-
-        Returns:
-            pd.DataFrame: Data aligned with the model's expected feature names.
         """
         aligned_data = data.reindex(columns=self._feature_names, fill_value=0)
         return aligned_data
+
+
+def main():
+    """
+    Main entry point for running the pipeline directly.
+    """
+    parser = argparse.ArgumentParser(
+        description="Run inference pipeline directly.")
+    parser.add_argument("--preprocessing", required=True,
+                        help="Path to preprocessing pipeline file.")
+    parser.add_argument("--model", required=True,
+                        help="Path to trained model file.")
+    parser.add_argument("--features", required=True,
+                        help="Path to feature names file.")
+    parser.add_argument("--data", required=True,
+                        help="Path to input data CSV.")
+    parser.add_argument("--output", required=True,
+                        help="Path to save predictions CSV.")
+    args = parser.parse_args()
+
+    # Load input data
+    logger.info(f"Loading input data from {args.data}.")
+    raw_data = pd.read_csv(args.data)
+
+    # Load pipeline
+    pipeline = load_pipeline(args.preprocessing, args.model, args.features)
+
+    # Run pipeline
+    predictions = pipeline.run(raw_data)
+
+    # Add customerID for reporting
+    if "customerID" in raw_data.columns:
+        predictions.insert(0, "customerID", raw_data["customerID"])
+
+    # Save predictions
+    logger.info(f"Saving predictions to {args.output}.")
+    predictions.to_csv(args.output, index=False)
+    logger.success(f"Predictions saved successfully at {args.output}.")
+
+
+if __name__ == "__main__":
+    logger.add("./logs/core.log", rotation="500 MB",
+               level="INFO", backtrace=True, diagnose=True)
+    main()
