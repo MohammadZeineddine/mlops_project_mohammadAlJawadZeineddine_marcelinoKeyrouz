@@ -48,7 +48,8 @@ def preprocess_data(data, pipeline):
 
         # Append transformed data with proper column names
         transformed_part_df = pd.DataFrame(
-            transformed_part, columns=feature_names, index=data.index)
+            transformed_part, columns=feature_names, index=data.index
+        )
         transformed_data.append(transformed_part_df)
 
     # Concatenate all transformed parts
@@ -67,10 +68,9 @@ def predict_and_save(model, data, output_path, original_data):
 
     # Add customerID back to the predictions
     if "customerID" in original_data.columns:
-        result_df = pd.DataFrame({
-            "customerID": original_data["customerID"],
-            "Prediction": predictions
-        })
+        result_df = pd.DataFrame(
+            {"customerID": original_data["customerID"], "Prediction": predictions}
+        )
     else:
         result_df = pd.DataFrame(predictions, columns=["Prediction"])
 
@@ -88,11 +88,14 @@ def main():
 
     # Parse arguments
     parser = argparse.ArgumentParser(
-        description="Batch inference using a trained model and preprocessing pipeline.")
-    parser.add_argument("--config", required=True,
-                        help="Path to the configuration YAML file.")
-    parser.add_argument("--data", required=True,
-                        help="Path to the input data for prediction.")
+        description="Batch inference using a trained model and preprocessing pipeline."
+    )
+    parser.add_argument(
+        "--config", required=True, help="Path to the configuration YAML file."
+    )
+    parser.add_argument(
+        "--data", required=True, help="Path to the input data for prediction."
+    )
     args = parser.parse_args()
 
     # Load configuration
@@ -105,8 +108,7 @@ def main():
     data = pd.read_csv(data_path)
 
     # Load the preprocessing pipeline
-    pipeline_path = os.path.join(
-        config.output.model_dir, "preprocessing_pipeline.pkl")
+    pipeline_path = os.path.join(config.output.model_dir, "preprocessing_pipeline.pkl")
     pipeline = load_pipeline(pipeline_path)
 
     # Preprocess the input data
@@ -121,7 +123,8 @@ def main():
     logger.info("Ensuring feature names align with model training.")
     expected_features = model.model.feature_names_in_
     preprocessed_data = preprocessed_data.reindex(
-        columns=expected_features, fill_value=0)
+        columns=expected_features, fill_value=0
+    )
 
     # Predict and save the results
     output_path = config.output.predictions_path
@@ -129,6 +132,11 @@ def main():
 
 
 if __name__ == "__main__":
-    logger.add("./logs/inference_batch.log", rotation="500 MB",
-               level="INFO", backtrace=True, diagnose=True)
+    logger.add(
+        "./logs/inference_batch.log",
+        rotation="500 MB",
+        level="INFO",
+        backtrace=True,
+        diagnose=True,
+    )
     main()

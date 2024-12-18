@@ -1,0 +1,70 @@
+data:
+  path: "data/raw/telco_churn.csv"
+  target_column: "Churn"
+
+model:
+  name: "random_forest"
+  params:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2  # Minimum samples required to split a node
+    min_samples_leaf: 1  # Minimum samples required to be at a leaf node
+
+training:
+  random_state: 42  # Random seed for reproducibility
+  test_size: 0.2  # Proportion of data to use for testing
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment_name: "Telco-Churn-Experiments"
+
+output:
+  model_dir: "models/"  # Directory to save the trained model
+
+data_transform:
+  pipeline:
+    - name: impute_missing_values
+      transformer: imputer
+      params:
+        strategy: mean
+      columns:
+        - TotalCharges
+
+    - name: encode_categorical
+      transformer: encoder
+      params:
+        encoding_type: onehot
+      columns:
+        - gender
+        - Partner
+        - Dependents
+        - PhoneService
+        - MultipleLines
+        - InternetService
+        - OnlineSecurity
+        - OnlineBackup
+        - DeviceProtection
+        - TechSupport
+        - StreamingTV
+        - StreamingMovies
+        - Contract
+        - PaperlessBilling
+        - PaymentMethod
+
+    - name: scale_numeric
+      transformer: scaler
+      params:
+        scaling_type: standard
+      columns:
+        - MonthlyCharges
+        - tenure
+
+    - name: encode_target
+      transformer: encoder
+      params:
+        encoding_type: label
+      columns:
+        - Churn
+
+global_settings:
+  save_path: "data/processed/"

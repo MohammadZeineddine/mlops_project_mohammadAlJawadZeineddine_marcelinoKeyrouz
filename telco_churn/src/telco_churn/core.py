@@ -8,18 +8,20 @@ from telco_churn.data_transform.factory import TransformerFactory
 from telco_churn.data_models.factory import ModelFactory
 
 
-def load_pipeline(preprocessing_path: str, model_path: str, feature_names_path: str) -> InferencePipeline:
+def load_pipeline(
+    preprocessing_path: str, model_path: str, feature_names_path: str
+) -> InferencePipeline:
     """
     Load the saved preprocessing pipeline, trained model, and feature names.
     """
-    logger.info(
-        "Loading preprocessing pipeline, trained model, and feature names.")
+    logger.info("Loading preprocessing pipeline, trained model, and feature names.")
     preprocessing_pipeline = joblib.load(preprocessing_path)
     model = joblib.load(model_path)
     with open(feature_names_path, "r") as f:
         feature_names = f.read().splitlines()
     logger.success(
-        "Preprocessing pipeline, model, and feature names loaded successfully.")
+        "Preprocessing pipeline, model, and feature names loaded successfully."
+    )
     return InferencePipeline(preprocessing_pipeline, model, feature_names)
 
 
@@ -28,7 +30,9 @@ class InferencePipeline:
     Class to handle the entire inference pipeline, including preprocessing and model prediction.
     """
 
-    def __init__(self, preprocessing_pipeline: list, model: object, feature_names: list):
+    def __init__(
+        self, preprocessing_pipeline: list, model: object, feature_names: list
+    ):
         self._preprocessing_pipeline = preprocessing_pipeline
         self._model = model
         self._feature_names = feature_names
@@ -47,8 +51,7 @@ class InferencePipeline:
             logger.success("Data transformed successfully.")
 
             # Align feature names
-            logger.info(
-                "Aligning features to match the model's input requirements.")
+            logger.info("Aligning features to match the model's input requirements.")
             aligned_data = self._align_features(transformed_data)
             logger.debug(f"Aligned Data:\n{aligned_data.head()}")
 
@@ -82,7 +85,8 @@ class InferencePipeline:
                 feature_names = columns
 
             transformed_df = pd.DataFrame(
-                transformed_part, columns=feature_names, index=data.index)
+                transformed_part, columns=feature_names, index=data.index
+            )
             data = data.drop(columns=columns).reset_index(drop=True)
             transformed_df = transformed_df.reset_index(drop=True)
             data = pd.concat([data, transformed_df], axis=1)
@@ -100,18 +104,14 @@ def main():
     """
     Main entry point for running the pipeline directly.
     """
-    parser = argparse.ArgumentParser(
-        description="Run inference pipeline directly.")
-    parser.add_argument("--preprocessing", required=True,
-                        help="Path to preprocessing pipeline file.")
-    parser.add_argument("--model", required=True,
-                        help="Path to trained model file.")
-    parser.add_argument("--features", required=True,
-                        help="Path to feature names file.")
-    parser.add_argument("--data", required=True,
-                        help="Path to input data CSV.")
-    parser.add_argument("--output", required=True,
-                        help="Path to save predictions CSV.")
+    parser = argparse.ArgumentParser(description="Run inference pipeline directly.")
+    parser.add_argument(
+        "--preprocessing", required=True, help="Path to preprocessing pipeline file."
+    )
+    parser.add_argument("--model", required=True, help="Path to trained model file.")
+    parser.add_argument("--features", required=True, help="Path to feature names file.")
+    parser.add_argument("--data", required=True, help="Path to input data CSV.")
+    parser.add_argument("--output", required=True, help="Path to save predictions CSV.")
     args = parser.parse_args()
 
     # Load input data
@@ -135,6 +135,11 @@ def main():
 
 
 if __name__ == "__main__":
-    logger.add("./logs/core.log", rotation="500 MB",
-               level="INFO", backtrace=True, diagnose=True)
+    logger.add(
+        "./logs/core.log",
+        rotation="500 MB",
+        level="INFO",
+        backtrace=True,
+        diagnose=True,
+    )
     main()
