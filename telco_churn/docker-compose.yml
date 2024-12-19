@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  train:
+    image: telco-churn
+    command: train-telco --config ${CONFIG_FILE}
+    env_file:
+      - .env.dev
+      - .env.prod
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./output:/app/output
+
+  inference:
+    image: telco-churn
+    command: inference-pipeline
+    env_file:
+      - .env.dev
+      - .env.prod
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./output:/app/output
