@@ -1,5 +1,7 @@
 import os
 import argparse
+import shutil
+from urllib.parse import urlparse
 import pandas as pd
 import numpy as np
 import mlflow
@@ -18,9 +20,24 @@ def start_mlflow_server(config):
     Starts the MLflow server as a subprocess.
     """
     logger.info("Starting MLflow server.")
-    tracking_uri = config.mlflow.tracking_uri
     artifact_root = os.getenv("MLFLOW_ARTIFACT_URI",
                               os.path.abspath(config.output.model_dir))
+
+    # Debug the artifact root value
+    logger.info(f"Artifact root before sanitization: {artifact_root}")
+
+    # Sanitize and handle file URI prefix
+    if artifact_root.startswith("file://"):
+        # Strip 'file://' prefix for Windows paths
+        artifact_root = artifact_root[7:]
+    elif artifact_root.startswith("file:"):
+        artifact_root = artifact_root[5:]
+
+    # Validate the artifact root path
+    if not os.path.isabs(artifact_root):
+        raise ValueError(f"Invalid artifact root path: {artifact_root}")
+
+    logger.info(f"Sanitized artifact root: {artifact_root}")
 
     # Ensure the artifact root directory exists
     os.makedirs(artifact_root, exist_ok=True)
@@ -34,7 +51,7 @@ def start_mlflow_server(config):
         "mlflow",
         "server",
         "--backend-store-uri",
-        tracking_uri,
+        config.mlflow.tracking_uri,
         "--default-artifact-root",
         artifact_root,
         "--host",
@@ -125,13 +142,11 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         f"Creating model '{model_name}' with parameters: {model_params}")
     model = ModelFactory(model_name, **model_params)
 
-    # MLflow experiment setup
+    # Set MLflow tracking URI and experiment
     mlflow_tracking_uri = os.getenv(
         "MLFLOW_TRACKING_URI", config.mlflow.tracking_uri)
     mlflow.set_tracking_uri(mlflow_tracking_uri)
     logger.info(f"MLflow tracking URI set to: {mlflow_tracking_uri}")
-    logger.info(
-        f"Setting MLflow experiment to: {config.mlflow.experiment_name}")
     mlflow.set_experiment(config.mlflow.experiment_name)
 
     with mlflow.start_run():
@@ -146,25 +161,39 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         logger.info("Evaluating the model...")
         metrics = model.evaluate(X_test, y_test)
 
-        # Filter metrics for MLflow logging (scalars only)
-        scalar_metrics = {
-            k: float(v)
-            for k, v in metrics.items()
-            if isinstance(v, (int, float, np.float64))
-        }
+        # Log metrics
+        scalar_metrics = {k: float(v) for k, v in metrics.items(
+        ) if isinstance(v, (int, float, np.float64))}
         mlflow.log_metrics(scalar_metrics)
 
-        # Save the model
+        # Save the model locally
         output_dir = config.output.model_dir
         os.makedirs(output_dir, exist_ok=True)
         model_path = os.path.join(output_dir, f"{model_name}_model.pkl")
         joblib.dump(model, model_path)
+
+        # Ensure artifacts are saved in the correct directory
+        artifact_uri = mlflow.get_artifact_uri()
+        logger.info(f"Resolved artifact URI: {artifact_uri}")
+        artifact_dir = os.path.join(os.path.abspath(
+            "./mlruns"), "1", mlflow.active_run().info.run_id, "artifacts")
+        os.makedirs(artifact_dir, exist_ok=True)
+
+        # Copy the model file to the artifact directory
+        artifact_model_path = os.path.join(
+            artifact_dir, f"{model_name}_model.pkl")
+        shutil.copy(model_path, artifact_model_path)
+
+        # Log the artifact in MLflow
         try:
-            mlflow.log_artifact(model_path)
-            logger.success(f"Model successfully logged at: {model_path}")
+            mlflow.log_artifact(artifact_model_path)
+            logger.success(
+                f"Model successfully logged to MLflow at {artifact_model_path}.")
         except Exception as e:
             logger.error(f"Failed to log artifact: {e}")
-        logger.success(f"Model saved and logged to MLflow at {model_path}")
+
+    logger.success(
+        f"Model saved and logged to MLflow at {artifact_model_path}.")
 
 
 def main():
@@ -176,14 +205,17 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser(
         description="Train a model and log to MLflow.")
-    parser.add_argument(
-        "--config", required=True, help="Path to the configuration YAML file."
-    )
+    parser.add_argument("--config", required=True,
+                        help="Path to the configuration YAML file.")
     args = parser.parse_args()
 
     # Load configuration
     config_path = args.config
     config = get_config(config_path)
+
+    # Set MLFLOW_ARTIFACT_URI to ensure artifacts are logged locally
+    artifact_root = os.path.abspath("./mlruns")
+    os.environ["MLFLOW_ARTIFACT_URI"] = f"file://{artifact_root}"
 
     # Start the MLflow server
     mlflow_process = None
@@ -197,13 +229,11 @@ def main():
 
         # Check if preprocessing is needed
         pipeline_path = os.path.join(
-            config.output.model_dir, "preprocessing_pipeline.pkl"
-        )
+            config.output.model_dir, "preprocessing_pipeline.pkl")
         if "data_transform" in config:
             logger.info("Running preprocessing pipeline...")
             data, _ = run_pipeline(
-                config, data, save_pipeline=True, pipeline_path=pipeline_path
-            )
+                config, data, save_pipeline=True, pipeline_path=pipeline_path)
         else:
             logger.info("Using preprocessed data.")
 
