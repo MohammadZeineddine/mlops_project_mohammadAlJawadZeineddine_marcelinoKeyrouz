@@ -175,8 +175,15 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         # Ensure artifacts are saved in the correct directory
         artifact_uri = mlflow.get_artifact_uri()
         logger.info(f"Resolved artifact URI: {artifact_uri}")
-        artifact_dir = os.path.join(os.path.abspath(
-            "./mlruns"), "1", mlflow.active_run().info.run_id, "artifacts")
+        # Dynamically retrieve the experiment ID
+        experiment_id = mlflow.get_experiment_by_name(
+            config.mlflow.experiment_name).experiment_id
+
+        # Construct the artifact directory path dynamically
+        artifact_dir = os.path.join(
+            os.path.abspath(
+                "./mlruns"), experiment_id, mlflow.active_run().info.run_id, "artifacts"
+        )
         os.makedirs(artifact_dir, exist_ok=True)
 
         # Copy the model file to the artifact directory
