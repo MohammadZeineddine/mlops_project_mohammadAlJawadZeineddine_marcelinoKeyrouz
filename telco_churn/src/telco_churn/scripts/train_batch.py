@@ -19,7 +19,8 @@ def start_mlflow_server(config):
     """
     logger.info("Starting MLflow server.")
     tracking_uri = config.mlflow.tracking_uri
-    artifact_root = os.path.abspath(config.output.model_dir)
+    artifact_root = os.getenv("MLFLOW_ARTIFACT_URI",
+                              os.path.abspath(config.output.model_dir))
 
     # Ensure the artifact root directory exists
     os.makedirs(artifact_root, exist_ok=True)
@@ -45,14 +46,16 @@ def start_mlflow_server(config):
     # Redirect stdout and stderr to avoid blocking
     log_file_path = os.path.join(logs_dir, "mlflow_server.log")
     log_file = open(log_file_path, "w")
-    mlflow_process = subprocess.Popen(mlflow_command, stdout=log_file, stderr=log_file)
+    mlflow_process = subprocess.Popen(
+        mlflow_command, stdout=log_file, stderr=log_file)
 
     # Wait briefly to ensure the server has started
     time.sleep(5)
 
     # Check if the process is still running
     if mlflow_process.poll() is not None:
-        logger.error("MLflow server failed to start. Check the logs for details.")
+        logger.error(
+            "MLflow server failed to start. Check the logs for details.")
         raise RuntimeError("Failed to start MLflow server.")
 
     logger.info("MLflow server started.")
@@ -118,11 +121,17 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
     """
     model_name = config.model.name
     model_params = config.model.get("params", {})
-    logger.info(f"Creating model '{model_name}' with parameters: {model_params}")
+    logger.info(
+        f"Creating model '{model_name}' with parameters: {model_params}")
     model = ModelFactory(model_name, **model_params)
 
     # MLflow experiment setup
-    mlflow.set_tracking_uri(config.mlflow.tracking_uri)
+    mlflow_tracking_uri = os.getenv(
+        "MLFLOW_TRACKING_URI", config.mlflow.tracking_uri)
+    mlflow.set_tracking_uri(mlflow_tracking_uri)
+    logger.info(f"MLflow tracking URI set to: {mlflow_tracking_uri}")
+    logger.info(
+        f"Setting MLflow experiment to: {config.mlflow.experiment_name}")
     mlflow.set_experiment(config.mlflow.experiment_name)
 
     with mlflow.start_run():
@@ -150,7 +159,11 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         os.makedirs(output_dir, exist_ok=True)
         model_path = os.path.join(output_dir, f"{model_name}_model.pkl")
         joblib.dump(model, model_path)
-        mlflow.log_artifact(model_path)
+        try:
+            mlflow.log_artifact(model_path)
+            logger.success(f"Model successfully logged at: {model_path}")
+        except Exception as e:
+            logger.error(f"Failed to log artifact: {e}")
         logger.success(f"Model saved and logged to MLflow at {model_path}")
 
 
@@ -161,7 +174,8 @@ def main():
     logger.info("Starting batch training with MLflow.")
 
     # Parse arguments
-    parser = argparse.ArgumentParser(description="Train a model and log to MLflow.")
+    parser = argparse.ArgumentParser(
+        description="Train a model and log to MLflow.")
     parser.add_argument(
         "--config", required=True, help="Path to the configuration YAML file."
     )
