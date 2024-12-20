@@ -16,6 +16,7 @@ training:
 
 mlflow:
   tracking_uri: "sqlite:///mlflow.db"
+  artifact_root: "file:./mlruns"
   experiment_name: "Telco-Churn-Experiments"
 
 output:

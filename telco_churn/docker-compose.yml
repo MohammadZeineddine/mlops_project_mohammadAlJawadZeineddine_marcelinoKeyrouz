@@ -1,24 +1,27 @@
-version: '3.8'
-
 services:
   train:
     image: telco-churn
-    command: train-telco --config ${CONFIG_FILE}
     env_file:
       - .env.dev
       - .env.prod
     volumes:
+      - ./config:/app/config
       - ./data:/app/data
       - ./models:/app/models
       - ./output:/app/output
+      - ./mlruns:/app/mlruns
+      - ./mlflow.db:/app/mlflow.db
+    environment:
+      - MLFLOW_TRACKING_URI=sqlite:///mlflow.db
+      - MLFLOW_ARTIFACT_URI=file:///app/mlruns
+    command: poetry run train-telco --config ${CONFIG_FILE}
 
   inference:
     image: telco-churn
-    command: inference-pipeline
     env_file:
       - .env.dev
-      - .env.prod
     volumes:
       - ./data:/app/data
       - ./models:/app/models
       - ./output:/app/output
+    command: poetry run inference-pipeline
