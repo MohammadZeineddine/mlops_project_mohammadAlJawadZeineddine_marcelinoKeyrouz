@@ -7,12 +7,12 @@ model:
   params:
     n_estimators: 100
     max_depth: 10
-    min_samples_split: 2  # Minimum samples required to split a node
-    min_samples_leaf: 1  # Minimum samples required to be at a leaf node
+    min_samples_split: 2
+    min_samples_leaf: 1
 
 training:
-  random_state: 42  # Random seed for reproducibility
-  test_size: 0.2  # Proportion of data to use for testing
+  random_state: 42
+  test_size: 0.2
   trained_model_path: "models/random_forest_model.pkl"
 
 mlflow:
@@ -21,7 +21,7 @@ mlflow:
   experiment_name: "Telco-Churn-Experiments"
 
 output:
-  model_dir: "models/"  # Directory to save the trained model
+  model_dir: "models/"
 
 data_transform:
   pipeline:
@@ -67,6 +67,3 @@ data_transform:
         encoding_type: label
       columns:
         - Churn
-
-global_settings:
-  save_path: "data/processed/"

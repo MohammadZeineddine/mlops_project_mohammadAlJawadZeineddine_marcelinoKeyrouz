@@ -12,9 +12,10 @@ services:
       - ./mlruns:/app/mlruns
       - ./mlflow.db:/app/mlflow.db
     environment:
-      - MLFLOW_TRACKING_URI=sqlite:///mlflow.db
-      - MLFLOW_ARTIFACT_URI=file:///app/mlruns
-    command: poetry run train-telco --config ${CONFIG_FILE}
+      MLFLOW_TRACKING_URI: sqlite:///app/mlflow.db
+      MLFLOW_ARTIFACT_URI: file:///app/mlruns
+      CONFIG_FILE: /app/config/config_train_dev.yaml
+    command: sh -c "poetry run train-telco --config ${CONFIG_FILE}"
 
   inference:
     image: telco-churn
@@ -26,3 +27,17 @@ services:
       - ./models:/app/models
       - ./output:/app/output
     command: poetry run inference-pipeline
+
+  web:
+    image: telco-churn
+    env_file:
+      - .env.dev
+      - .env.prod
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./output:/app/output
+    ports:
+      - "8000:8000"
+    command: poetry run uvicorn src.telco_churn.api:app --host 0.0.0.0 --port 8000

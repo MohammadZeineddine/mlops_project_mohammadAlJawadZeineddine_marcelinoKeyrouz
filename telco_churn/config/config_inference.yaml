@@ -37,6 +37,6 @@ data_transform:
         - tenure
 
 output:
-  model_dir: "models/"  # Path to the directory containing the preprocessing pipeline and trained model
+  model_dir: "models/"
   trained_model_path: "models/logistic_regression_model.pkl"
   predictions_path: "output/predictions.csv"

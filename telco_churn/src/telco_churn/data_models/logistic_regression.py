@@ -12,7 +12,32 @@ from .base_model import BaseModel
 
 class LogisticRegression(BaseModel):
     """
-    Logistic Regression model.
+    **Logistic Regression Model**
+
+    This class implements the Logistic Regression algorithm for binary classification tasks.
+    It inherits from the `BaseModel` class and adheres to its defined interface.
+
+    **Attributes:**
+
+    * `model (SklearnLogisticRegression)`: An instance of the underlying scikit-learn LogisticRegression model.
+
+    **Methods:**
+
+    * **__init__(self, **kwargs):**
+        - Initializes the model with optional hyperparameters to be passed to the scikit-learn LogisticRegression constructor.
+
+    * **train(self, X, y):**
+        - Trains the model using the provided features (X) and target variable (y).
+
+    * **predict(self, X):**
+        - Generates predictions for new data points using the trained model.
+        - Takes a DataFrame of features (X) as input and returns an array of predicted class labels.
+
+    * **evaluate(self, X, y):**
+        - Evaluates the model's performance on a given dataset.
+        - Takes features (X) and ground truth labels (y) as input.
+        - Returns a dictionary containing various evaluation metrics
+            like accuracy, precision, recall, confusion matrix, and ROC AUC score.
     """
 
     def __init__(self, **kwargs):

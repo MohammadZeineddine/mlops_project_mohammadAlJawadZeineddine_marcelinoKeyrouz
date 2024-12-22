@@ -8,7 +8,7 @@ from loguru import logger
 
 
 def load_pipeline(
-    preprocessing_path: str, model_path: str, feature_names_path: str
+        preprocessing_path: str, model_path: str, feature_names_path: str
 ) -> InferencePipeline:
     """
     Load the saved preprocessing pipeline, trained model, and feature names.
@@ -30,7 +30,7 @@ class InferencePipeline:
     """
 
     def __init__(
-        self, preprocessing_pipeline: list, model: object, feature_names: list
+            self, preprocessing_pipeline: list, model: object, feature_names: list
     ):
         self._preprocessing_pipeline = preprocessing_pipeline
         self._model = model
@@ -43,24 +43,20 @@ class InferencePipeline:
         try:
             logger.info("Pipeline execution started.")
 
-            # Apply the preprocessing pipeline
             logger.info("Applying data transformation.")
             transformed_data = self._apply_pipeline(data)
             logger.debug(f"Transformed Data:\n{transformed_data.head()}")
             logger.success("Data transformed successfully.")
 
-            # Align feature names
             logger.info("Aligning features to match the model's input requirements.")
             aligned_data = self._align_features(transformed_data)
             logger.debug(f"Aligned Data:\n{aligned_data.head()}")
 
-            # Make predictions
             logger.info("Running model inference.")
             predictions = self._model.predict(aligned_data)
             logger.debug(f"Predictions: {predictions}")
             logger.success("Model inference completed successfully.")
 
-            # Return predictions as a DataFrame
             prediction_df = pd.DataFrame(predictions, columns=["Prediction"])
             logger.info("Pipeline execution completed successfully.")
             return prediction_df
@@ -77,7 +73,6 @@ class InferencePipeline:
             logger.debug(f"Applying step '{step_name}' on columns {columns}.")
             transformed_part = transformer.transform(data[columns])
 
-            # Handle multi-column output transformers
             if hasattr(transformer, "get_feature_names_out"):
                 feature_names = transformer.get_feature_names_out(columns)
             else:
@@ -113,21 +108,16 @@ def main():
     parser.add_argument("--output", required=True, help="Path to save predictions CSV.")
     args = parser.parse_args()
 
-    # Load input data
     logger.info(f"Loading input data from {args.data}.")
     raw_data = pd.read_csv(args.data)
 
-    # Load pipeline
     pipeline = load_pipeline(args.preprocessing, args.model, args.features)
 
-    # Run pipeline
     predictions = pipeline.run(raw_data)
 
-    # Add customerID for reporting
     if "customerID" in raw_data.columns:
         predictions.insert(0, "customerID", raw_data["customerID"])
 
-    # Save predictions
     logger.info(f"Saving predictions to {args.output}.")
     predictions.to_csv(args.output, index=False)
     logger.success(f"Predictions saved successfully at {args.output}.")

@@ -18,10 +18,8 @@ expected_features = []
 
 load_dotenv()
 
-# Get the config path from the environment variables
 config_path = os.getenv("CONFIG_PATH", "config/config_train_dev.yaml")
 
-# Define the input data model
 class PredictionInput(BaseModel):
     customerID: str
     gender: str
@@ -41,7 +39,7 @@ class PredictionInput(BaseModel):
     PaymentMethod: str
     MonthlyCharges: float
     tenure: int
-    TotalCharges: Optional[float] = None  # TotalCharges can be missing in some cases
+    TotalCharges: Optional[float] = None
 
 class BatchPredictionInput(BaseModel):
     data: List[PredictionInput]
@@ -56,20 +54,16 @@ def load_artifacts():
     logger.info("Loading configuration and artifacts.")
 
     try:
-        # Get the configuration (no need to unpack into two values)
         config = get_config(config_path)
 
-        # Load preprocessing pipeline
         pipeline_path = os.path.join(config.output.model_dir, "preprocessing_pipeline.pkl")
         pipeline = joblib.load(pipeline_path)
         logger.success("Preprocessing pipeline loaded successfully.")
 
-        # Load trained model
         model_path = config.output.trained_model_path
         model = joblib.load(model_path)
         logger.success("Trained model loaded successfully.")
 
-        # Get expected feature names from the model
         expected_features = model.model.feature_names_in_
 
     except Exception as e:
@@ -84,16 +78,13 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
     - If a file is uploaded, processes the file for batch processing.
     """
     if input_data:
-        # Handle prediction request
         try:
             logger.info("Received data for prediction.")
-            # Convert input data to DataFrame
+
             data = pd.DataFrame([item.dict() for item in input_data.data])
 
-            # Check if input contains customerID column (optional but helpful)
             customer_ids = data["customerID"] if "customerID" in data.columns else None
 
-            # Preprocess input data
             transformed_data = []
             for step_name, transformer, columns in pipeline:
                 if not all(col in data.columns for col in columns):
@@ -112,10 +103,8 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
 
             preprocessed_data = pd.concat(transformed_data, axis=1)
 
-            # Align feature names with the model
             preprocessed_data = preprocessed_data.reindex(columns=expected_features, fill_value=0)
 
-            # Make predictions
             predictions = model.predict(preprocessed_data)
             response = {"predictions": predictions.tolist()}
 
@@ -129,12 +118,9 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
             raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}")
 
     elif file:
-        # Handle file upload request
         try:
             logger.info("File upload received.")
             df = pd.read_csv(file.file)
-
-            # Validate file structure
             if df.empty:
                 raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 

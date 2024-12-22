@@ -1633,35 +1633,6 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
-name = "prometheus-client"
-version = "0.21.1"
-description = "Python client for the Prometheus monitoring system."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "prometheus_client-0.21.1-py3-none-any.whl", hash = "sha256:594b45c410d6f4f8888940fe80b5cc2521b305a1fafe1c58609ef715a001f301"},
-    {file = "prometheus_client-0.21.1.tar.gz", hash = "sha256:252505a722ac04b0456be05c05f75f45d760c2911ffc45f2a06bcaed9f3ae3fb"},
-]
-
-[package.extras]
-twisted = ["twisted"]
-
-[[package]]
-name = "prometheus-fastapi-instrumentator"
-version = "7.0.0"
-description = "Instrument your FastAPI with Prometheus metrics."
-optional = false
-python-versions = ">=3.8.1,<4.0.0"
-files = [
-    {file = "prometheus_fastapi_instrumentator-7.0.0-py3-none-any.whl", hash = "sha256:96030c43c776ee938a3dae58485ec24caed7e05bfc60fe067161e0d5b5757052"},
-    {file = "prometheus_fastapi_instrumentator-7.0.0.tar.gz", hash = "sha256:5ba67c9212719f244ad7942d75ded80693b26331ee5dfc1e7571e4794a9ccbed"},
-]
-
-[package.dependencies]
-prometheus-client = ">=0.8.0,<1.0.0"
-starlette = ">=0.30.0,<1.0.0"
-
-[[package]]
 name = "protobuf"
 version = "5.29.2"
 description = ""
@@ -2658,5 +2629,5 @@ type = ["pytest-mypy"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10,<=3.13.1"
-content-hash = "9f000a4e178a12f2837e7803269243655ec51687eff253a51e1911b41bdd6959"
+python-versions = ">=3.10,<=3.12"
+content-hash = "2e3ec83c70c6267839517b9e23fbafbc478f64cbd2322c52b0aa0bab761def02"

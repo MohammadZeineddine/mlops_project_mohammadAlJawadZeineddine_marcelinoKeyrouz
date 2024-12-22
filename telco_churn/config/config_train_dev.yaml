@@ -22,7 +22,6 @@ mlflow:
   artifact_root: "/app/mlruns"
   experiment_name: "Telco-Churn-Experiments"
 
-
 data_transform:
   pipeline:
     - name: impute_missing_values
@@ -67,6 +66,3 @@ data_transform:
         encoding_type: label
       columns:
         - Churn
-
-global_settings:
-  save_path: "data/processed/"

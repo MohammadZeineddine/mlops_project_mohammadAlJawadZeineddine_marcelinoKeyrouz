@@ -1,14 +1,9 @@
-# Ignore virtual environments
 .venv/
 __pycache__/
 **/__pycache__/
 *.pyc
 *.pyo
-
-# Ignore test results and logs
 .pytest_cache/
 pipeline.log
-
-# Ignore mlflow artifacts
 mlruns/
 mlartifacts/
