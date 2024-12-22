@@ -1,12 +1,13 @@
-from .base_model import BaseModel
 from sklearn.ensemble import RandomForestClassifier as SklearnRandomForestClassifier
 from sklearn.metrics import (
     accuracy_score,
+    confusion_matrix,
     precision_score,
     recall_score,
-    confusion_matrix,
     roc_auc_score,
 )
+
+from .base_model import BaseModel
 
 
 class RandomForest(BaseModel):

@@ -1,0 +1,12 @@
+name: Setup # The name of the reusable action.
+description: Setup for project workflows
+runs:
+  using: composite # Composite actions run multiple steps as a single action.
+  steps:
+    - run: pipx install poetry
+      shell: bash
+    - uses: actions/setup-python@v5
+      with:
+        python-version: 3.13.1
+        cache: poetry # Cache dependencies to speed up subsequent runs.
+

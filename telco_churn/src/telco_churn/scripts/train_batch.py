@@ -1,18 +1,19 @@
-import os
 import argparse
+import os
 import shutil
-from urllib.parse import urlparse
-import pandas as pd
-import numpy as np
-import mlflow
+import subprocess
+import time
+
 import joblib
+import mlflow
+import numpy as np
+import pandas as pd
 from loguru import logger
 from sklearn.model_selection import train_test_split
+
 from telco_churn.config import get_config
 from telco_churn.data_models import ModelFactory
 from telco_churn.data_transform import TransformerFactory
-import subprocess
-import time
 
 
 def start_mlflow_server(config):

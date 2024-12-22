@@ -1,6 +1,7 @@
 import sys
-from omegaconf import OmegaConf
+
 from loguru import logger
+from omegaconf import OmegaConf
 
 
 def load_config(config_path):

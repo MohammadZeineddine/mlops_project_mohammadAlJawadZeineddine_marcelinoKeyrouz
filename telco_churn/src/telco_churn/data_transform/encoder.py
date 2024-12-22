@@ -1,6 +1,7 @@
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
-from .base_transformer import BaseTransformer
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+from .base_transformer import BaseTransformer
 
 
 class CategoricalEncoder(BaseTransformer):

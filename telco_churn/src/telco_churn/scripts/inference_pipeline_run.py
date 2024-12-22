@@ -1,7 +1,9 @@
 import os
-from telco_churn.core import load_pipeline
+
 import pandas as pd
 from loguru import logger
+
+from telco_churn.core import load_pipeline
 
 
 def main():

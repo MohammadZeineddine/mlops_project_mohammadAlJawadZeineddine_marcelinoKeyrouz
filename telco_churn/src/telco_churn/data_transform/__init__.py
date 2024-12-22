@@ -1,7 +1,7 @@
 from sklearn.preprocessing import StandardScaler
 
-from .factory import TransformerFactory
 from .encoder import CategoricalEncoder
+from .factory import TransformerFactory
 from .imputer import DataImputer
 from .scaler import DataScaler
 

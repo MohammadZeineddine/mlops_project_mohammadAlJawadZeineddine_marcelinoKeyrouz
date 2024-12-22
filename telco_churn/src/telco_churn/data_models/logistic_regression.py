@@ -1,12 +1,13 @@
-from .base_model import BaseModel
 from sklearn.linear_model import LogisticRegression as SklearnLogisticRegression
 from sklearn.metrics import (
     accuracy_score,
+    confusion_matrix,
     precision_score,
     recall_score,
-    confusion_matrix,
     roc_auc_score,
 )
+
+from .base_model import BaseModel
 
 
 class LogisticRegression(BaseModel):

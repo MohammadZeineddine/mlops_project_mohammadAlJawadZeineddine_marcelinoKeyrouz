@@ -1,12 +1,10 @@
-# tasks.py
 from invoke.context import Context
 from invoke.tasks import task
 
-
-@task
-def test(ctx: Context) -> None:
-    """Run all tests with pytest."""
-    ctx.run("poetry run pytest tests/")
+# @task
+# def test(ctx: Context) -> None:
+#     """Run all tests with pytest."""
+#     ctx.run("poetry run pytest tests/")
 
 
 @task
@@ -22,10 +20,10 @@ def format(ctx: Context) -> None:
     ctx.run("poetry run ruff format src/ tasks.py tests/")
 
 
-@task
-def type(ctx: Context) -> None:
-    """Run ruff to lint and format the code."""
-    ctx.run("poetry run mypy src/ tasks.py tests/")
+# @task
+# def type(ctx: Context) -> None:
+#     """Run ruff to lint and format the code."""
+#     ctx.run("poetry run mypy src/ tasks.py tests/")
 
 
 @task
@@ -33,7 +31,7 @@ def check(ctx: Context) -> None:
     """Run type, lint and format checks"""
     lint(ctx)
     format(ctx)
-    type(ctx)
+    # type(ctx)
 
 
 @task

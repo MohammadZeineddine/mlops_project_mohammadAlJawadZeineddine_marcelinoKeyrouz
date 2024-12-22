@@ -1,6 +1,7 @@
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from .base_transformer import BaseTransformer
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+
+from .base_transformer import BaseTransformer
 
 
 class DataScaler(BaseTransformer):

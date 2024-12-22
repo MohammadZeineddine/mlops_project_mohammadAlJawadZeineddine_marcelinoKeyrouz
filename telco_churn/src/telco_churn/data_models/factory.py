@@ -1,5 +1,5 @@
-from .random_forest import RandomForest
 from .logistic_regression import LogisticRegression
+from .random_forest import RandomForest
 
 MODEL_REGISTRY = {
     "logistic_regression": LogisticRegression,
