@@ -20,6 +20,7 @@ services:
     image: telco-churn
     env_file:
       - .env.dev
+      - .env.prod
     volumes:
       - ./data:/app/data
       - ./models:/app/models

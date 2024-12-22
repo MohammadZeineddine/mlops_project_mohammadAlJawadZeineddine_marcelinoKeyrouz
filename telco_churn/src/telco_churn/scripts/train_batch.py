@@ -21,8 +21,9 @@ def start_mlflow_server(config):
     Starts the MLflow server as a subprocess.
     """
     logger.info("Starting MLflow server.")
-    artifact_root = os.getenv("MLFLOW_ARTIFACT_URI",
-                              os.path.abspath(config.output.model_dir))
+    artifact_root = os.getenv(
+        "MLFLOW_ARTIFACT_URI", os.path.abspath(config.output.model_dir)
+    )
 
     # Debug the artifact root value
     logger.info(f"Artifact root before sanitization: {artifact_root}")
@@ -64,16 +65,14 @@ def start_mlflow_server(config):
     # Redirect stdout and stderr to avoid blocking
     log_file_path = os.path.join(logs_dir, "mlflow_server.log")
     log_file = open(log_file_path, "w")
-    mlflow_process = subprocess.Popen(
-        mlflow_command, stdout=log_file, stderr=log_file)
+    mlflow_process = subprocess.Popen(mlflow_command, stdout=log_file, stderr=log_file)
 
     # Wait briefly to ensure the server has started
     time.sleep(5)
 
     # Check if the process is still running
     if mlflow_process.poll() is not None:
-        logger.error(
-            "MLflow server failed to start. Check the logs for details.")
+        logger.error("MLflow server failed to start. Check the logs for details.")
         raise RuntimeError("Failed to start MLflow server.")
 
     logger.info("MLflow server started.")
@@ -139,13 +138,11 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
     """
     model_name = config.model.name
     model_params = config.model.get("params", {})
-    logger.info(
-        f"Creating model '{model_name}' with parameters: {model_params}")
+    logger.info(f"Creating model '{model_name}' with parameters: {model_params}")
     model = ModelFactory(model_name, **model_params)
 
     # Set MLflow tracking URI and experiment
-    mlflow_tracking_uri = os.getenv(
-        "MLFLOW_TRACKING_URI", config.mlflow.tracking_uri)
+    mlflow_tracking_uri = os.getenv("MLFLOW_TRACKING_URI", config.mlflow.tracking_uri)
     mlflow.set_tracking_uri(mlflow_tracking_uri)
     logger.info(f"MLflow tracking URI set to: {mlflow_tracking_uri}")
     mlflow.set_experiment(config.mlflow.experiment_name)
@@ -163,8 +160,11 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         metrics = model.evaluate(X_test, y_test)
 
         # Log metrics
-        scalar_metrics = {k: float(v) for k, v in metrics.items(
-        ) if isinstance(v, (int, float, np.float64))}
+        scalar_metrics = {
+            k: float(v)
+            for k, v in metrics.items()
+            if isinstance(v, (int, float, np.float64))
+        }
         mlflow.log_metrics(scalar_metrics)
 
         # Save the model locally
@@ -178,30 +178,32 @@ def train_and_log_model(config, X_train, y_train, X_test, y_test):
         logger.info(f"Resolved artifact URI: {artifact_uri}")
         # Dynamically retrieve the experiment ID
         experiment_id = mlflow.get_experiment_by_name(
-            config.mlflow.experiment_name).experiment_id
+            config.mlflow.experiment_name
+        ).experiment_id
 
         # Construct the artifact directory path dynamically
         artifact_dir = os.path.join(
-            os.path.abspath(
-                "./mlruns"), experiment_id, mlflow.active_run().info.run_id, "artifacts"
+            os.path.abspath("./mlruns"),
+            experiment_id,
+            mlflow.active_run().info.run_id,
+            "artifacts",
         )
         os.makedirs(artifact_dir, exist_ok=True)
 
         # Copy the model file to the artifact directory
-        artifact_model_path = os.path.join(
-            artifact_dir, f"{model_name}_model.pkl")
+        artifact_model_path = os.path.join(artifact_dir, f"{model_name}_model.pkl")
         shutil.copy(model_path, artifact_model_path)
 
         # Log the artifact in MLflow
         try:
             mlflow.log_artifact(artifact_model_path)
             logger.success(
-                f"Model successfully logged to MLflow at {artifact_model_path}.")
+                f"Model successfully logged to MLflow at {artifact_model_path}."
+            )
         except Exception as e:
             logger.error(f"Failed to log artifact: {e}")
 
-    logger.success(
-        f"Model saved and logged to MLflow at {artifact_model_path}.")
+    logger.success(f"Model saved and logged to MLflow at {artifact_model_path}.")
 
 
 def main():
@@ -211,10 +213,10 @@ def main():
     logger.info("Starting batch training with MLflow.")
 
     # Parse arguments
-    parser = argparse.ArgumentParser(
-        description="Train a model and log to MLflow.")
-    parser.add_argument("--config", required=True,
-                        help="Path to the configuration YAML file.")
+    parser = argparse.ArgumentParser(description="Train a model and log to MLflow.")
+    parser.add_argument(
+        "--config", required=True, help="Path to the configuration YAML file."
+    )
     args = parser.parse_args()
 
     # Load configuration
@@ -237,11 +239,13 @@ def main():
 
         # Check if preprocessing is needed
         pipeline_path = os.path.join(
-            config.output.model_dir, "preprocessing_pipeline.pkl")
+            config.output.model_dir, "preprocessing_pipeline.pkl"
+        )
         if "data_transform" in config:
             logger.info("Running preprocessing pipeline...")
             data, _ = run_pipeline(
-                config, data, save_pipeline=True, pipeline_path=pipeline_path)
+                config, data, save_pipeline=True, pipeline_path=pipeline_path
+            )
         else:
             logger.info("Using preprocessed data.")
 

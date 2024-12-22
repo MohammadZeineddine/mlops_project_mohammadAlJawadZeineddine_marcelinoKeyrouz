@@ -15,6 +15,7 @@ training:
 
 output:
   model_dir: "models/"
+  trained_model_path: "models/logistic_regression_model.pkl"
 
 mlflow:
   tracking_uri: "sqlite:///mlflow.db"

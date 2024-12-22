@@ -7,14 +7,15 @@ from loguru import logger
 def train():
     logger.info("Starting training process...")
     os.system(
-        f"python src/telco_churn/scripts/train_batch.py --config {os.getenv('CONFIG_PATH')}")
+        f"python src/telco_churn/scripts/train_batch.py --config {os.getenv('CONFIG_PATH')}"
+    )
 
 
 def inference():
     logger.info("Starting inference process...")
     os.system(
-        f"python src/telco_churn/scripts/inference_batch.py "
-        f"--config {os.getenv('CONFIG_PATH')} --data {os.getenv('DATA_PATH')}"
+        f'python src/telco_churn/scripts/inference_batch.py '
+        f'--config {os.getenv("CONFIG_PATH")} --data {os.getenv("DATA_PATH")}'
     )
 
 
