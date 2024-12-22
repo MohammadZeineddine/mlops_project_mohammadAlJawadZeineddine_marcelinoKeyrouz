@@ -1,11 +1,13 @@
 import os
-from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, File
-from pydantic import BaseModel
 from typing import List, Optional
-import pandas as pd
+
 import joblib
+import pandas as pd
+from dotenv import load_dotenv
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from loguru import logger
+from pydantic import BaseModel
+
 from telco_churn.config import get_config
 
 app = FastAPI()

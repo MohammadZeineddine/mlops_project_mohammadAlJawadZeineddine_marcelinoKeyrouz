@@ -24,6 +24,9 @@ COPY poetry.lock pyproject.toml /app/
 # Install dependencies with Poetry
 RUN poetry install --no-root --no-cache
 
+# Install uvicorn for serving FastAPI
+RUN poetry run pip install uvicorn
+
 # Copy the rest of the project files
 COPY . /app
 
@@ -33,8 +36,11 @@ RUN poetry run pip install -e .
 # Set Python's PATH for Poetry's virtual environment
 ENV PATH="/root/.local/bin:$PATH"
 
+# Expose the FastAPI default port (8000)
+EXPOSE 8000
+
 # Entrypoint for running commands dynamically
 ENTRYPOINT ["poetry", "run"]
 
-# Default command (can be overridden)
-CMD ["python", "src/telco_churn/scripts/entrypoint.py"]
+# Default command (runs FastAPI with uvicorn)
+CMD ["uvicorn", "src.telco_churn.main:app", "--host", "0.0.0.0", "--port", "8000"]
