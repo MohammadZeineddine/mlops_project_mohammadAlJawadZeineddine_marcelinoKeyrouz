@@ -18,7 +18,7 @@ def lint(ctx: Context, fix: bool = False) -> None:
 @task
 def docs(ctx: Context) -> None:
     """Generate HTML documentation with pdoc."""
-    ctx.run("poetry run pdoc src/telco-churn -o docs -d google")
+    ctx.run("poetry run pdoc telco_churn -o docs -d google")
 
 
 @task

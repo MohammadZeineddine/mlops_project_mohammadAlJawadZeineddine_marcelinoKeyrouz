@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY poetry.lock pyproject.toml /app/
 
-RUN poetry install --no-root --no-cache && \
-    poetry run pip install --no-cache-dir uvicorn
+RUN poetry install & \
+    poetry run pip install uvicorn
 
 COPY . /app
 
