@@ -22,7 +22,7 @@ RUN poetry install & \
 
 COPY . /app
 
-RUN poetry run pip install -e .
+RUN poetry run pip install --timeout=120 -e .
 
 EXPOSE 8000
 
