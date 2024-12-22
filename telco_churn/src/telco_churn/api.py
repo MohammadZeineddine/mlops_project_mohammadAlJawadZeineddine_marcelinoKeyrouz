@@ -20,6 +20,7 @@ load_dotenv()
 
 config_path = os.getenv("CONFIG_PATH", "config/config_train_dev.yaml")
 
+
 class PredictionInput(BaseModel):
     customerID: str
     gender: str
@@ -41,8 +42,10 @@ class PredictionInput(BaseModel):
     tenure: int
     TotalCharges: Optional[float] = None
 
+
 class BatchPredictionInput(BaseModel):
     data: List[PredictionInput]
+
 
 @app.on_event("startup")
 def load_artifacts():
@@ -56,7 +59,9 @@ def load_artifacts():
     try:
         config = get_config(config_path)
 
-        pipeline_path = os.path.join(config.output.model_dir, "preprocessing_pipeline.pkl")
+        pipeline_path = os.path.join(
+            config.output.model_dir, "preprocessing_pipeline.pkl"
+        )
         pipeline = joblib.load(pipeline_path)
         logger.success("Preprocessing pipeline loaded successfully.")
 
@@ -70,8 +75,11 @@ def load_artifacts():
         logger.error(f"Error during startup: {e}")
         raise RuntimeError(f"Failed to load artifacts: {e}")
 
+
 @app.post("/process")
-async def process(input_data: BatchPredictionInput = None, file: UploadFile = File(None)):
+async def process(
+    input_data: BatchPredictionInput = None, file: UploadFile = File(None)
+):
     """
     Unified endpoint to handle predictions and file uploads.
     - If data is provided, performs prediction.
@@ -89,7 +97,9 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
             for step_name, transformer, columns in pipeline:
                 if not all(col in data.columns for col in columns):
                     missing_cols = [col for col in columns if col not in data.columns]
-                    raise HTTPException(status_code=400, detail=f"Missing columns: {missing_cols}")
+                    raise HTTPException(
+                        status_code=400, detail=f"Missing columns: {missing_cols}"
+                    )
 
                 transformed_part = transformer.transform(data[columns])
 
@@ -98,12 +108,16 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
                 else:
                     feature_names = columns
 
-                transformed_part_df = pd.DataFrame(transformed_part, columns=feature_names, index=data.index)
+                transformed_part_df = pd.DataFrame(
+                    transformed_part, columns=feature_names, index=data.index
+                )
                 transformed_data.append(transformed_part_df)
 
             preprocessed_data = pd.concat(transformed_data, axis=1)
 
-            preprocessed_data = preprocessed_data.reindex(columns=expected_features, fill_value=0)
+            preprocessed_data = preprocessed_data.reindex(
+                columns=expected_features, fill_value=0
+            )
 
             predictions = model.predict(preprocessed_data)
             response = {"predictions": predictions.tolist()}
@@ -115,7 +129,9 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
 
         except Exception as e:
             logger.error(f"Error during prediction: {e}")
-            raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"Error during prediction: {str(e)}"
+            )
 
     elif file:
         try:
@@ -125,14 +141,20 @@ async def process(input_data: BatchPredictionInput = None, file: UploadFile = Fi
                 raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
             logger.success("File processed successfully.")
-            return {"message": "File processed successfully.", "columns": df.columns.tolist()}
+            return {
+                "message": "File processed successfully.",
+                "columns": df.columns.tolist(),
+            }
 
         except Exception as e:
             logger.error(f"Error processing uploaded file: {e}")
-            raise HTTPException(status_code=500, detail=f"Error processing file: {str(e)}")
+            raise HTTPException(
+                status_code=500, detail=f"Error processing file: {str(e)}"
+            )
 
     else:
         raise HTTPException(status_code=400, detail="No input data or file provided.")
+
 
 @app.get("/healthcheck")
 def healthcheck():

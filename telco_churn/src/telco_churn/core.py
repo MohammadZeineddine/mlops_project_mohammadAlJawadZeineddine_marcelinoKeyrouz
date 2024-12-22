@@ -8,7 +8,7 @@ from loguru import logger
 
 
 def load_pipeline(
-        preprocessing_path: str, model_path: str, feature_names_path: str
+    preprocessing_path: str, model_path: str, feature_names_path: str
 ) -> InferencePipeline:
     """
     Load the saved preprocessing pipeline, trained model, and feature names.
@@ -30,7 +30,7 @@ class InferencePipeline:
     """
 
     def __init__(
-            self, preprocessing_pipeline: list, model: object, feature_names: list
+        self, preprocessing_pipeline: list, model: object, feature_names: list
     ):
         self._preprocessing_pipeline = preprocessing_pipeline
         self._model = model

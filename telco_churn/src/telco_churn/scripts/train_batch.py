@@ -27,7 +27,6 @@ def start_mlflow_server(config):
 
     logger.info(f"Artifact root before sanitization: {artifact_root}")
 
-
     if artifact_root.startswith("file://"):
         artifact_root = artifact_root[7:]
     elif artifact_root.startswith("file:"):
