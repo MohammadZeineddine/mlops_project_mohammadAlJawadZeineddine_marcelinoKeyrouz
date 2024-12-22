@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import Series
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 from .base_transformer import BaseTransformer
