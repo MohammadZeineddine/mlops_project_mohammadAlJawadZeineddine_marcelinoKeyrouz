@@ -48,7 +48,7 @@ This project implements a machine learning pipeline to predict customer churn us
 ### Local Setup
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/MohammadZeineddine/mlops_project_mohammadAlJawadZeineddine_marcelinoKeyrouz.git
    cd telco_churn
    ```
 
@@ -149,6 +149,7 @@ This project uses GitHub Actions for Continuous Integration and Deployment:
 - **Model Registry**: Use MLflow Model Registry to manage production-ready models.
 - **Deployment**: Automate deployment pipelines for serving models.
 - **Monitoring**: Add metrics tracking and alerting using Prometheus or similar tools.
+- **Jenkins Integration**: Add Jenkins pipelines for build automation and CI/CD workflows.
 
 ---
 
