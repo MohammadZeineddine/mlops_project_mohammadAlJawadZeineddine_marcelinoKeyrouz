@@ -49,7 +49,7 @@ This project implements a machine learning pipeline to predict customer churn us
 1. Clone the repository:
    ```bash
    git clone https://github.com/MohammadZeineddine/mlops_project_mohammadAlJawadZeineddine_marcelinoKeyrouz.git
-   cd telco_churn
+   cd mlops_project_mohammadAlJawadZeineddine_marcelinoKeyrouz\telco_churn\
    ```
 
 2. Install dependencies using Poetry:
